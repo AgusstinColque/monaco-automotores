@@ -9,7 +9,8 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Inter',Arial,sans-serif;background:#f4f6fb;color:#1a1a2e}
   /* NAV BLANCO */
-  .nav{background:#fff;border-bottom:2px solid #dee3f0;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:72px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.07)}
+  .nav{background:#fff;border-bottom:2px solid #dee3f0;display:flex;align-items:center;padding:0 2rem;height:72px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.07)}
+  .nav-top-row{display:contents}
   .logo-text{display:flex;align-items:center;gap:12px;text-decoration:none;cursor:pointer}
   .logo-icon{height:48px;display:flex;align-items:center}
   .logo-icon img{height:48px;width:auto;max-width:220px;object-fit:contain}
@@ -435,12 +436,45 @@ nav a{
 
 /* NAV MOBILE */
 @media(max-width:768px){
+  /* Nav: 2 filas — top bar + buscador */
   .nav{
+    padding:0;
+    height:auto;
+    flex-direction:column;
+    align-items:stretch;
+    gap:0;
+  }
+  .nav-top-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
     padding:0 1rem;
-    height:60px;
+    height:56px;
     gap:10px;
   }
-  .logo-icon img{height:38px}
+  .logo-icon img{height:36px}
+
+  /* Buscador en segunda fila */
+  .nav-search{
+    flex:none;
+    margin:0;
+    max-width:none;
+    padding:0 1rem 10px;
+    width:100%;
+  }
+  .nav-search-inner{border-radius:7px}
+  .nav-search input{font-size:14px;padding:8px 4px}
+  .nav-search-dropdown{
+    position:fixed;
+    top:102px;
+    left:0;right:0;
+    border-radius:0;
+    border-left:none;border-right:none;border-top:none;
+    box-shadow:0 8px 24px rgba(10,31,92,0.15);
+    max-height:60vh;
+    overflow-y:auto;
+    z-index:300;
+  }
 
   /* Hamburger */
   .nav-hamburger{
@@ -448,17 +482,17 @@ nav a{
     flex-direction:column;
     justify-content:center;
     gap:5px;
-    width:36px;
-    height:36px;
+    width:40px;
+    height:40px;
     background:none;
-    border:none;
+    border:1.5px solid #e2e6f0;
     cursor:pointer;
-    padding:4px;
+    padding:6px;
     flex-shrink:0;
-    border-radius:6px;
-    transition:background .15s;
+    border-radius:8px;
+    transition:background .15s,border-color .15s;
   }
-  .nav-hamburger:hover{background:#f4f6fb}
+  .nav-hamburger:hover{background:#f4f6fb;border-color:#c8cedc}
   .nav-hamburger span{display:block;height:2px;background:#0a1f5c;border-radius:2px;transition:transform .25s,opacity .25s}
   .nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
   .nav-hamburger.open span:nth-child(2){opacity:0}
@@ -468,44 +502,25 @@ nav a{
   .nav-links{
     display:none;
     position:fixed;
-    top:60px;
+    top:102px;
     left:0;right:0;
     background:#fff;
     border-bottom:2px solid #dee3f0;
     flex-direction:column;
     gap:0;
     padding:0;
-    z-index:99;
+    z-index:200;
     box-shadow:0 8px 24px rgba(10,31,92,0.1);
   }
   .nav-links.open{display:flex}
   .nav-links a{
-    padding:15px 1.25rem;
+    padding:16px 1.25rem;
     font-size:15px;
     border-bottom:1px solid #f0f2f8;
-    border-left:none;
+    border-left:3px solid transparent;
   }
   .nav-links a:last-child{border-bottom:none}
-  .nav-links a.active{border-bottom:1px solid #f0f2f8;border-left:3px solid #e63030;color:#0a1f5c}
-
-  /* Buscador: se expande en fila */
-  .nav-search{
-    flex:1;
-    margin:0;
-    max-width:none;
-  }
-  .nav-search-inner{border-radius:7px}
-  .nav-search input{font-size:14px;padding:8px 4px}
-  .nav-search-dropdown{
-    position:fixed;
-    top:60px;
-    left:0;right:0;
-    border-radius:0;
-    border-left:none;border-right:none;border-top:none;
-    box-shadow:0 8px 24px rgba(10,31,92,0.15);
-    max-height:60vh;
-    overflow-y:auto;
-  }
+  .nav-links a.active{border-left:3px solid #e63030;color:#0a1f5c;background:#fafbff}
 
   /* SECTION */
   .section{padding:1.25rem 1rem}
@@ -582,9 +597,19 @@ nav a{
 <body>
 
 <nav class="nav">
-  <a class="logo-text" onclick="showPage('inicio')">
-    <div class="logo-icon"><img src="https://i.imgur.com/LkafD09.png" alt="Monaco Automotores"></div>
-  </a>
+  <div class="nav-top-row">
+    <a class="logo-text" onclick="showPage('inicio')">
+      <div class="logo-icon"><img src="https://i.imgur.com/LkafD09.png" alt="Monaco Automotores"></div>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a onclick="showPage('inicio');cerrarMenu()" id="nav-inicio" class="active">Inicio</a>
+      <a onclick="showPage('catalogo');cerrarMenu()" id="nav-catalogo">Catálogo</a>
+      <a onclick="showPage('contacto');cerrarMenu()" id="nav-contacto">Contacto</a>
+    </div>
+    <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMenu()" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
   <div class="nav-search" id="nav-search-wrap">
     <div class="nav-search-inner">
       <span class="nav-search-icon">
@@ -597,14 +622,6 @@ nav a{
     </div>
     <div class="nav-search-dropdown" id="nav-search-dropdown"></div>
   </div>
-  <div class="nav-links" id="nav-links">
-    <a onclick="showPage('inicio');cerrarMenu()" id="nav-inicio" class="active">Inicio</a>
-    <a onclick="showPage('catalogo');cerrarMenu()" id="nav-catalogo">Catálogo</a>
-    <a onclick="showPage('contacto');cerrarMenu()" id="nav-contacto">Contacto</a>
-  </div>
-  <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMenu()" aria-label="Menú">
-    <span></span><span></span><span></span>
-  </button>
 </nav>
 
 <!-- INICIO -->
