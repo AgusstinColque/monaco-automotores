@@ -133,7 +133,7 @@
     <a onclick="showPage('inicio')" id="nav-inicio" class="active">Inicio</a>
     <a onclick="showPage('catalogo')" id="nav-catalogo">Catálogo</a>
     <a onclick="showPage('contacto')" id="nav-contacto">Contacto</a>
-    <a onclick="showPage('admin')" id="nav-admin" style="color:#e63030;font-weight:700">Admin</a>
+    
   </div>
 </nav>
 
@@ -269,12 +269,13 @@
   <div id="admin-login" class="admin-login">
     <h2>🔐 Panel Admin</h2>
     <p style="color:#888;font-size:13px;margin-bottom:1rem">Monaco Automotores</p>
+    <input type="email" id="email-input" placeholder="Correo electrónico"><br><br>
     <input type="password" id="pass-input" placeholder="Contraseña" onkeydown="if(event.key==='Enter')checkPass()">
     <button onclick="checkPass()">Ingresar</button>
     <p id="pass-error" style="color:#e63030;font-size:13px;margin-top:10px;display:none">Contraseña incorrecta</p>
   </div>
   <div id="admin-panel" class="admin-panel" style="display:none">
-    <h2>Panel de administración</h2>
+    <h2>Panel de administración</h2><button class="btn-restaurar" onclick="cerrarSesion()">Cerrar sesión</button>
     <div class="admin-form">
       <h3>➕ Agregar auto</h3>
       <div class="form-row">
@@ -317,6 +318,12 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyD6x4voHZqwb-guS_PA3jH7gapqmDbXABM",
@@ -329,7 +336,7 @@
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
-  const ADMIN_PASS = "monaco2025";
+  const auth = getAuth(app);
   let todosLosAutos = [];
 
   // CARRUSEL
@@ -355,7 +362,26 @@
     document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
     document.getElementById('page-' + page).classList.add('active');
     document.getElementById('nav-' + page).classList.add('active');
-    if(page === 'inicio' || page === 'catalogo') cargarAutos();
+    if(page === 'inicio' || page === 'catalogo') 
+window.cerrarSesion = async function(){
+  await signOut(auth);
+  location.reload();
+}
+
+onAuthStateChanged(auth, (user)=>{
+  if(user){
+    document.getElementById('admin-login').style.display='none';
+    document.getElementById('admin-panel').style.display='block';
+    cargarListaAdmin();
+  }
+});
+
+if(location.hash === '#admin'){
+  showPage('admin');
+}
+
+cargarAutos();
+
     if(page === 'admin' && document.getElementById('admin-panel').style.display === 'block') cargarListaAdmin();
   }
 
@@ -366,12 +392,16 @@
     setTimeout(() => t.classList.remove('show'), 2800);
   }
 
-  window.checkPass = function() {
-    if(document.getElementById('pass-input').value === ADMIN_PASS) {
+  window.checkPass = async function() {
+    const email = document.getElementById('email-input').value;
+    const password = document.getElementById('pass-input').value;
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
       document.getElementById('admin-login').style.display = 'none';
       document.getElementById('admin-panel').style.display = 'block';
       cargarListaAdmin();
-    } else {
+    } catch {
       document.getElementById('pass-error').style.display = 'block';
     }
   }
@@ -511,7 +541,26 @@
     window.open('https://wa.me/5493875482700?text=' + encodeURIComponent(texto), '_blank');
   }
 
-  cargarAutos();
+  
+window.cerrarSesion = async function(){
+  await signOut(auth);
+  location.reload();
+}
+
+onAuthStateChanged(auth, (user)=>{
+  if(user){
+    document.getElementById('admin-login').style.display='none';
+    document.getElementById('admin-panel').style.display='block';
+    cargarListaAdmin();
+  }
+});
+
+if(location.hash === '#admin'){
+  showPage('admin');
+}
+
+cargarAutos();
+
 </script>
 </body>
 </html>
