@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -10,7 +10,6 @@
   body{font-family:'Inter',Arial,sans-serif;background:#f4f6fb;color:#1a1a2e}
   /* NAV BLANCO */
   .nav{background:#fff;border-bottom:2px solid #dee3f0;display:flex;align-items:center;padding:0 2rem;height:72px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.07)}
-  .nav-top-row{display:contents}
   .nav-mobile-search{display:none}
   .logo-text{display:flex;align-items:center;gap:12px;text-decoration:none;cursor:pointer}
   .logo-icon{height:48px;display:flex;align-items:center}
@@ -446,12 +445,6 @@ nav a{
     justify-content:space-between;
     gap:0;
   }
-  .nav-top-row{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    width:100%;
-  }
   .logo-icon img{height:36px}
 
   /* Ocultar buscador del nav en mobile */
@@ -609,19 +602,9 @@ nav a{
 <body>
 
 <nav class="nav">
-  <div class="nav-top-row">
-    <a class="logo-text" onclick="showPage('inicio')">
-      <div class="logo-icon"><img src="https://i.imgur.com/LkafD09.png" alt="Monaco Automotores"></div>
-    </a>
-    <div class="nav-links" id="nav-links">
-      <a onclick="showPage('inicio');cerrarMenu()" id="nav-inicio" class="active">Inicio</a>
-      <a onclick="showPage('catalogo');cerrarMenu()" id="nav-catalogo">Catálogo</a>
-      <a onclick="showPage('contacto');cerrarMenu()" id="nav-contacto">Contacto</a>
-    </div>
-    <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMenu()" aria-label="Menú">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
+  <a class="logo-text" onclick="showPage('inicio')">
+    <div class="logo-icon"><img src="https://i.imgur.com/LkafD09.png" alt="Monaco Automotores"></div>
+  </a>
   <div class="nav-search" id="nav-search-wrap">
     <div class="nav-search-inner">
       <span class="nav-search-icon">
@@ -955,12 +938,7 @@ import {
   }
 
   window.filtrarAutos = function() {
-    const condicion = document.getElementById('f-condicion').value;
-    const combustible = document.getElementById('f-combustible').value;
-    let filtrados = todosLosAutos.filter(a => !a.vendido);
-    if(condicion) filtrados = filtrados.filter(a => a.condicion === condicion);
-    if(combustible) filtrados = filtrados.filter(a => a.combustible === combustible);
-    renderCatalogo(filtrados);
+    renderCatalogo(todosLosAutos);
   }
 
   window.agregarAuto = async function() {
