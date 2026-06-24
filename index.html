@@ -19,6 +19,38 @@
   .nav-links{display:flex;gap:2rem}
   .nav-links a{color:#555;font-size:14px;text-decoration:none;cursor:pointer;padding-bottom:2px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;font-weight:500}
   .nav-links a:hover,.nav-links a.active{color:#0a1f5c;border-bottom-color:#e63030}
+  /* BUSCADOR NAV */
+  .nav-search{flex:1;max-width:420px;margin:0 2.5rem;position:relative}
+  .nav-search-inner{display:flex;align-items:center;background:#f4f6fb;border:1.5px solid #e2e6f0;border-radius:8px;overflow:hidden;transition:border-color .2s,box-shadow .2s,background .2s}
+  .nav-search-inner:focus-within{border-color:#0a1f5c;box-shadow:0 0 0 3px rgba(10,31,92,0.07);background:#fff}
+  .nav-search-icon{display:flex;align-items:center;padding:0 10px 0 13px;color:#9aa3b8;flex-shrink:0}
+  .nav-search-icon svg{display:block}
+  .nav-search input{flex:1;border:none;background:transparent;padding:9px 4px;font-size:13.5px;font-family:'Inter',sans-serif;color:#1a1a2e;outline:none;min-width:0}
+  .nav-search input::placeholder{color:#b0b8cc;font-weight:400}
+  .nav-search-clear{background:none;border:none;color:#b0b8cc;cursor:pointer;padding:0 12px;font-size:15px;display:none;line-height:1;transition:color .15s;flex-shrink:0}
+  .nav-search-clear:hover{color:#555}
+  .nav-search-clear.visible{display:flex;align-items:center}
+  /* DROPDOWN */
+  .nav-search-dropdown{position:absolute;top:calc(100% + 8px);left:0;right:0;background:#fff;border:1px solid #e2e6f0;border-radius:10px;box-shadow:0 12px 32px rgba(10,31,92,0.13);z-index:200;overflow:hidden;display:none;animation:dropdownIn .15s ease}
+  .nav-search-dropdown.open{display:block}
+  @keyframes dropdownIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+  .search-dropdown-header{padding:9px 14px 7px;font-size:10.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#9aa3b8;border-bottom:1px solid #f0f2f8}
+  .search-result-item{display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;border-bottom:1px solid #f7f8fb;transition:background .12s}
+  .search-result-item:last-child{border-bottom:none}
+  .search-result-item:hover{background:#f4f6fb}
+  .search-result-item:hover .search-result-name{color:#0a1f5c}
+  .search-result-thumb{width:56px;height:40px;object-fit:cover;border-radius:6px;background:#eef1f8;flex-shrink:0;border:1px solid #e8ecf4}
+  .search-result-thumb-placeholder{width:56px;height:40px;border-radius:6px;background:#eef1f8;border:1px solid #e8ecf4;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+  .search-result-info{flex:1;min-width:0}
+  .search-result-name{font-size:13.5px;font-weight:600;color:#1a1a2e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .12s;margin-bottom:2px}
+  .search-result-sub{display:flex;align-items:center;gap:8px}
+  .search-result-price{font-size:12.5px;color:#e63030;font-weight:700}
+  .search-result-km{font-size:11.5px;color:#9aa3b8;font-weight:500}
+  .search-result-arrow{color:#c8cedc;font-size:13px;flex-shrink:0;margin-left:auto}
+  .search-no-result{padding:20px 14px;text-align:center;color:#9aa3b8;font-size:13px}
+  .search-footer-link{padding:10px 14px;border-top:1px solid #f0f2f8;text-align:center;font-size:12.5px;color:#0a1f5c;font-weight:600;cursor:pointer;transition:background .12s;display:block}
+  .search-footer-link:hover{background:#f4f6fb}
+  @media(max-width:768px){.nav-search{max-width:none;margin:0 1rem;flex:1}}
   /* PAGES */
   .page{display:none}
   .page.active{display:block}
@@ -396,6 +428,154 @@ nav a{
   .vehicle-details{padding:20px;}
   #modalTitulo{font-size:18px;}
 }
+
+/* ============================================
+   MOBILE RESPONSIVE — COMPLETO
+   ============================================ */
+
+/* NAV MOBILE */
+@media(max-width:768px){
+  .nav{
+    padding:0 1rem;
+    height:60px;
+    gap:10px;
+  }
+  .logo-icon img{height:38px}
+
+  /* Hamburger */
+  .nav-hamburger{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:5px;
+    width:36px;
+    height:36px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:4px;
+    flex-shrink:0;
+    border-radius:6px;
+    transition:background .15s;
+  }
+  .nav-hamburger:hover{background:#f4f6fb}
+  .nav-hamburger span{display:block;height:2px;background:#0a1f5c;border-radius:2px;transition:transform .25s,opacity .25s}
+  .nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav-hamburger.open span:nth-child(2){opacity:0}
+  .nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+  /* Links collapse */
+  .nav-links{
+    display:none;
+    position:fixed;
+    top:60px;
+    left:0;right:0;
+    background:#fff;
+    border-bottom:2px solid #dee3f0;
+    flex-direction:column;
+    gap:0;
+    padding:0;
+    z-index:99;
+    box-shadow:0 8px 24px rgba(10,31,92,0.1);
+  }
+  .nav-links.open{display:flex}
+  .nav-links a{
+    padding:15px 1.25rem;
+    font-size:15px;
+    border-bottom:1px solid #f0f2f8;
+    border-left:none;
+  }
+  .nav-links a:last-child{border-bottom:none}
+  .nav-links a.active{border-bottom:1px solid #f0f2f8;border-left:3px solid #e63030;color:#0a1f5c}
+
+  /* Buscador: se expande en fila */
+  .nav-search{
+    flex:1;
+    margin:0;
+    max-width:none;
+  }
+  .nav-search-inner{border-radius:7px}
+  .nav-search input{font-size:14px;padding:8px 4px}
+  .nav-search-dropdown{
+    position:fixed;
+    top:60px;
+    left:0;right:0;
+    border-radius:0;
+    border-left:none;border-right:none;border-top:none;
+    box-shadow:0 8px 24px rgba(10,31,92,0.15);
+    max-height:60vh;
+    overflow-y:auto;
+  }
+
+  /* SECTION */
+  .section{padding:1.25rem 1rem}
+  .section-title{font-size:16px}
+
+  /* GRID: 2 columnas en mobile */
+  .cars-grid{grid-template-columns:repeat(2,1fr);gap:0.75rem}
+  .car-img{height:130px}
+  .car-body{padding:0.75rem}
+  .car-name{font-size:13px}
+  .car-price{font-size:16px;margin-bottom:6px}
+  .car-specs .spec{font-size:11px}
+
+  /* FILTERS */
+  .filters{gap:0.6rem;padding:0.85rem 1rem}
+  .filter-select{font-size:12px;padding:6px 8px;flex:1}
+  .filter-btn{padding:6px 14px;font-size:12px}
+
+  /* BRANDS */
+  .brands-section{padding:1.5rem 0}
+  .brand-logo{height:60px;width:130px}
+  .brand-logo img{max-height:52px;max-width:110px}
+
+  /* FOOTER */
+  .footer{padding:2rem 1rem 1.5rem;margin-top:1.5rem}
+  .footer-inner{gap:1.5rem}
+
+  /* ADMIN */
+  .admin-panel{padding:1rem}
+  .admin-item{flex-wrap:wrap}
+  .admin-item-btns{width:100%;justify-content:flex-end}
+}
+
+/* Pantallas muy chicas (iPhone SE, etc.) */
+@media(max-width:380px){
+  .cars-grid{grid-template-columns:1fr}
+  .car-img{height:170px}
+}
+
+/* MODAL MOBILE — pantalla completa */
+@media(max-width:768px){
+  .modal{padding:0;align-items:flex-end}
+  .modal-content{
+    border-radius:16px 16px 0 0;
+    max-height:93vh;
+    width:100%;
+    overflow-y:auto;
+  }
+  .modal-body{
+    grid-template-columns:1fr;
+  }
+  .modal-img{height:240px}
+  .modal-img-col{border-radius:0}
+  .vehicle-details{padding:20px 18px 28px}
+  #modalTitulo{font-size:19px}
+  .premium-price-value{font-size:24px}
+  .modal-nav{
+    padding:8px 12px;
+    position:sticky;
+    top:0;
+    z-index:10;
+    background:#fff;
+  }
+  .modal-thumbs{padding:10px 12px;gap:6px}
+  .modal-thumbs img{width:62px;height:44px}
+}
+
+/* Hamburger oculto en desktop */
+.nav-hamburger{display:none}
+
 </style>
 
 </head>
@@ -405,12 +585,26 @@ nav a{
   <a class="logo-text" onclick="showPage('inicio')">
     <div class="logo-icon"><img src="https://i.imgur.com/LkafD09.png" alt="Monaco Automotores"></div>
   </a>
-  <div class="nav-links">
-    <a onclick="showPage('inicio')" id="nav-inicio" class="active">Inicio</a>
-    <a onclick="showPage('catalogo')" id="nav-catalogo">Catálogo</a>
-    <a onclick="showPage('contacto')" id="nav-contacto">Contacto</a>
-    
+  <div class="nav-search" id="nav-search-wrap">
+    <div class="nav-search-inner">
+      <span class="nav-search-icon">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="6"/><line x1="15" y1="15" x2="19" y2="19"/></svg>
+      </span>
+      <input type="text" id="nav-search-input" placeholder="Buscar por marca o modelo..." autocomplete="off" oninput="buscarEnNav(this.value)" onfocus="mostrarDropdown()" onblur="ocultarDropdownDelay()">
+      <button class="nav-search-clear" id="nav-search-clear" onclick="limpiarBusqueda()">
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/></svg>
+      </button>
+    </div>
+    <div class="nav-search-dropdown" id="nav-search-dropdown"></div>
   </div>
+  <div class="nav-links" id="nav-links">
+    <a onclick="showPage('inicio');cerrarMenu()" id="nav-inicio" class="active">Inicio</a>
+    <a onclick="showPage('catalogo');cerrarMenu()" id="nav-catalogo">Catálogo</a>
+    <a onclick="showPage('contacto');cerrarMenu()" id="nav-contacto">Contacto</a>
+  </div>
+  <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMenu()" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- INICIO -->
@@ -489,7 +683,7 @@ nav a{
       <div class="footer-col">
         <h4>Datos útiles</h4>
         <div class="footer-row"><span class="ficon">📍</span><span>Junín 31, Salta Capital</span></div>
-        <div class="footer-row"><span class="ficon">🕐</span><span>Lunes a viernes 9 a 13 hs.<br>Sábados 10 a 13 hs.</span></div>
+        <div class="footer-row"><span class="ficon">🕐</span><span>Lunes a viernes: 9 a 13 hs. y 17 a 21 hs.<br>Sábados: 10 a 13 hs.</span></div>
       </div>
     </div>
     <div class="footer-bottom">MONACO AUTOMOTORES · Salta Capital · © 2026</div>
@@ -501,22 +695,7 @@ nav a{
 <div id="page-catalogo" class="page">
   <div class="section">
     <div class="section-title">Catálogo completo</div>
-    <div class="filters">
-      <span class="filter-label">Filtrar:</span>
-      <select class="filter-select" id="f-condicion">
-        <option value="">Todos</option>
-        <option value="0km">0 km</option>
-        <option value="usado">Usado</option>
-      </select>
-      <select class="filter-select" id="f-combustible">
-        <option value="">Combustible</option>
-        <option value="Nafta">Nafta</option>
-        <option value="Diesel">Diesel</option>
-        <option value="Nafta - GNC">Nafta - GNC</option>
-        <option value="Eléctrico">Eléctrico</option>
-      </select>
-      <button class="filter-btn" onclick="filtrarAutos()">Buscar</button>
-    </div>
+
     <div id="catalogo-grid" class="cars-grid">
       <div class="loading">Cargando autos...</div>
     </div>
@@ -540,7 +719,7 @@ nav a{
       <div class="footer-col">
         <h4>Datos útiles</h4>
         <div class="footer-row"><span class="ficon">📍</span><span>Junín 31, Salta Capital</span></div>
-        <div class="footer-row"><span class="ficon">🕐</span><span>Lunes a viernes 9 a 13 hs.<br>Sábados 10 a 13 hs.</span></div>
+        <div class="footer-row"><span class="ficon">🕐</span><span>Lunes a viernes: 9 a 13 hs. y 17 a 21 hs.<br>Sábados: 10 a 13 hs.</span></div>
       </div>
     </div>
     <div class="footer-bottom">MONACO AUTOMOTORES · Salta Capital · © 2026</div>
@@ -881,6 +1060,96 @@ document.addEventListener('keydown',e=>{
 document.getElementById('vehiculoModal').addEventListener('click',function(e){
  if(e.target===this) cerrarModal();
 });
+
+// ===== BUSCADOR NAV =====
+// ===== MENU MOBILE =====
+window.toggleMenu = function(){
+  const links = document.getElementById('nav-links');
+  const btn = document.getElementById('nav-hamburger');
+  links.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+window.cerrarMenu = function(){
+  document.getElementById('nav-links').classList.remove('open');
+  document.getElementById('nav-hamburger').classList.remove('open');
+}
+// Cerrar menú al tocar fuera
+document.addEventListener('click', function(e){
+  const nav = document.querySelector('.nav');
+  if(!nav.contains(e.target)){
+    cerrarMenu();
+  }
+});
+
+window.buscarEnNav = function(q) {
+  const clear = document.getElementById('nav-search-clear');
+  const dropdown = document.getElementById('nav-search-dropdown');
+  q = q.trim();
+  clear.classList.toggle('visible', q.length > 0);
+  if(!q) { dropdown.classList.remove('open'); return; }
+  const ql = q.toLowerCase();
+  const resultados = todosLosAutos.filter(a =>
+    !a.vendido && (
+      (a.marca||'').toLowerCase().includes(ql) ||
+      (a.modelo||'').toLowerCase().includes(ql)
+    )
+  ).slice(0, 6);
+
+  function highlight(text) {
+    const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
+    return (text||'').replace(re, '<mark style="background:#fff0b3;color:#0d1b2e;border-radius:2px;padding:0 1px">$1</mark>');
+  }
+
+  if(resultados.length === 0) {
+    dropdown.innerHTML = `<div class="search-no-result">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c8cedc" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+      Sin resultados para <strong style="color:#1a1a2e">"${q}"</strong>
+    </div>`;
+  } else {
+    const items = resultados.map(a => {
+      const foto = a.fotos&&a.fotos.length ? a.fotos[0] : a.foto;
+      const thumb = foto
+        ? `<img class="search-result-thumb" src="${foto}" alt="${a.marca}" onerror="this.style.display='none'">`
+        : `<div class="search-result-thumb-placeholder">&#128663;</div>`;
+      const km = a.km ? `<span class="search-result-km">${Number(a.km).toLocaleString('es-AR')} km</span>` : '';
+      return `<div class="search-result-item" onmousedown="seleccionarResultado(${JSON.stringify(a).replace(/'/g,'&#39;')})">
+        ${thumb}
+        <div class="search-result-info">
+          <div class="search-result-name">${highlight(a.marca)} ${highlight(a.modelo)} <span style="font-weight:400;color:#9aa3b8">${a.anio||''}</span></div>
+          <div class="search-result-sub">
+            <span class="search-result-price">$${Number(a.precio).toLocaleString('es-AR')}</span>
+            ${km}
+          </div>
+        </div>
+        <svg class="search-result-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 4 10 8 6 12"/></svg>
+      </div>`;
+    }).join('');
+    const header = `<div class="search-dropdown-header">${resultados.length} veh\u00edculo${resultados.length !== 1 ? 's' : ''} encontrado${resultados.length !== 1 ? 's' : ''}</div>`;
+    const footer = `<div class="search-footer-link" onmousedown="showPage('cat\u00e1logo');limpiarBusqueda()">Ver todo el cat\u00e1logo &rarr;</div>`;
+    dropdown.innerHTML = header + items + footer;
+  }
+  dropdown.classList.add('open');
+}
+window.seleccionarResultado = function(auto) {
+  limpiarBusqueda();
+  showPage('catalogo');
+  setTimeout(() => abrirModal(auto), 100);
+}
+
+window.mostrarDropdown = function() {
+  const q = document.getElementById('nav-search-input').value.trim();
+  if(q) buscarEnNav(q);
+}
+
+window.ocultarDropdownDelay = function() {
+  setTimeout(() => document.getElementById('nav-search-dropdown').classList.remove('open'), 200);
+}
+
+window.limpiarBusqueda = function() {
+  document.getElementById('nav-search-input').value = '';
+  document.getElementById('nav-search-clear').classList.remove('visible');
+  document.getElementById('nav-search-dropdown').classList.remove('open');
+}
 
 window.cerrarModal=function(){
  document.getElementById('vehiculoModal').style.display='none';
