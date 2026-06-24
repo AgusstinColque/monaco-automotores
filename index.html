@@ -636,6 +636,31 @@ nav a{
   }
 }
 
+
+@media(max-width:768px){
+  .nav{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+  }
+  .nav-hamburger{
+    display:flex !important;
+    flex-direction:column !important;
+    width:36px !important;
+    height:36px !important;
+    margin-left:auto !important;
+    order:999 !important;
+  }
+  .nav-hamburger span{
+    width:24px !important;
+    height:3px !important;
+    background:#0a1f5c !important;
+    flex:0 0 3px !important;
+  }
+  .nav-links{display:none;}
+  .nav-links.open{display:flex !important;}
+}
+
 </style>
 
 </head>
