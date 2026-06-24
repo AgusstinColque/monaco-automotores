@@ -7,26 +7,49 @@
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Segoe UI',Arial,sans-serif;background:#f4f6fb;color:#1a1a2e}
-  /* NAV */
-  .nav{background:#0a1f5c;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:64px;position:sticky;top:0;z-index:100}
-  .logo-text{color:#fff;font-size:18px;font-weight:600;letter-spacing:1px;display:flex;align-items:center;gap:12px;text-decoration:none;cursor:pointer}
-  .logo-icon{height:52px;display:flex;align-items:center;justify-content:center}
-  .logo-icon img{height:52px;width:auto;object-fit:contain;border-radius:6px}
+  /* NAV BLANCO */
+  .nav{background:#fff;border-bottom:2px solid #dee3f0;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:72px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.07)}
+  .logo-text{display:flex;align-items:center;gap:12px;text-decoration:none;cursor:pointer}
+  .logo-icon{height:56px;display:flex;align-items:center}
+  .logo-icon img{height:56px;width:auto;object-fit:contain;border-radius:6px}
   .logo-nombre{display:flex;flex-direction:column;line-height:1.2}
-  .logo-nombre span:first-child{font-size:17px;font-weight:700;letter-spacing:2px;color:#fff}
-  .logo-nombre span:last-child{font-size:11px;font-weight:400;color:#c8d4f0;letter-spacing:1px}
+  .logo-nombre span:first-child{font-size:17px;font-weight:700;letter-spacing:2px;color:#0a1f5c}
+  .logo-nombre span:last-child{font-size:11px;font-weight:400;color:#888;letter-spacing:1px}
   .nav-links{display:flex;gap:2rem}
-  .nav-links a{color:#c8d4f0;font-size:14px;text-decoration:none;cursor:pointer;padding-bottom:2px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
-  .nav-links a:hover,.nav-links a.active{color:#fff;border-bottom-color:#e63030}
+  .nav-links a{color:#555;font-size:14px;text-decoration:none;cursor:pointer;padding-bottom:2px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;font-weight:500}
+  .nav-links a:hover,.nav-links a.active{color:#0a1f5c;border-bottom-color:#e63030}
   /* PAGES */
   .page{display:none}
   .page.active{display:block}
-  /* HERO */
-  .hero{background:linear-gradient(135deg,#0a1f5c 0%,#1a3a8f 60%,#e63030 100%);color:#fff;padding:4rem 2rem;text-align:center}
-  .hero h1{font-size:2rem;font-weight:600;margin-bottom:.75rem}
-  .hero p{font-size:16px;color:#c8d4f0;margin-bottom:1.5rem}
-  .hero-badges{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap}
-  .badge{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:6px 16px;font-size:13px}
+  /* CARRUSEL */
+  .carousel{position:relative;width:100%;height:420px;overflow:hidden;background:#0a1f5c}
+  .carousel-track{display:flex;height:100%;transition:transform .5s ease}
+  .carousel-slide{min-width:100%;height:100%;display:flex;align-items:center;justify-content:space-between;padding:3rem 6rem;position:relative;overflow:hidden}
+  .slide-1{background:linear-gradient(120deg,#0a1f5c 0%,#1a3a8f 50%,#e63030 100%)}
+  .slide-2{background:linear-gradient(120deg,#e63030 0%,#c22020 40%,#0a1f5c 100%)}
+  .slide-3{background:linear-gradient(120deg,#0a3a1f 0%,#0a7a3a 50%,#0a1f5c 100%)}
+  .slide-content{z-index:2;max-width:55%}
+  .slide-tag{display:inline-block;background:#e63030;color:#fff;font-size:12px;font-weight:700;letter-spacing:2px;padding:4px 14px;border-radius:20px;margin-bottom:1rem}
+  .slide-2 .slide-tag{background:#0a1f5c}
+  .slide-3 .slide-tag{background:#fff;color:#0a3a1f}
+  .slide-title{font-size:2.4rem;font-weight:800;color:#fff;line-height:1.15;margin-bottom:1rem;text-transform:uppercase;letter-spacing:1px}
+  .slide-sub{font-size:1rem;color:rgba(255,255,255,0.85);margin-bottom:1.5rem;line-height:1.6}
+  .slide-btn{background:#fff;color:#0a1f5c;border:none;border-radius:8px;padding:12px 28px;font-size:14px;font-weight:700;cursor:pointer;transition:transform .15s}
+  .slide-btn:hover{transform:scale(1.04)}
+  .slide-2 .slide-btn{background:#0a1f5c;color:#fff}
+  .slide-3 .slide-btn{background:#0a7a3a;color:#fff}
+  .slide-deco{position:absolute;right:4rem;top:50%;transform:translateY(-50%);font-size:10rem;opacity:.18;z-index:1;pointer-events:none}
+  .slide-badge-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem}
+  .slide-badge{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:20px;padding:5px 14px;font-size:12px;color:#fff;font-weight:500}
+  /* FLECHAS */
+  .carousel-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.4);color:#fff;width:44px;height:44px;border-radius:50%;font-size:20px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;transition:background .2s}
+  .carousel-btn:hover{background:rgba(255,255,255,0.35)}
+  .carousel-btn.prev{left:1.5rem}
+  .carousel-btn.next{right:1.5rem}
+  /* DOTS */
+  .carousel-dots{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10}
+  .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.4);cursor:pointer;transition:background .2s,transform .2s}
+  .dot.active{background:#fff;transform:scale(1.2)}
   /* SECTIONS */
   .section{padding:2rem;max-width:1100px;margin:0 auto}
   .section-title{font-size:18px;font-weight:600;color:#0a1f5c;margin-bottom:1.25rem;display:flex;align-items:center;gap:8px}
@@ -92,7 +115,6 @@
   @media(max-width:600px){.form-row{grid-template-columns:1fr}}
   .add-btn{background:#0a1f5c;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
   .add-btn:hover{background:#1a3a8f}
-  .admin-list{}
   .admin-item{background:#fff;border-radius:10px;border:1px solid #dee3f0;padding:1rem 1.25rem;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:1rem}
   .admin-item.vendido-item{border-left:4px solid #888;opacity:.7}
   .admin-item-info{flex:1}
@@ -105,7 +127,6 @@
   /* TOAST */
   .toast{position:fixed;bottom:24px;right:24px;background:#0a1f5c;color:#fff;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:500;opacity:0;transition:opacity .3s;z-index:9999;pointer-events:none}
   .toast.show{opacity:1}
-  /* EMPTY */
   .empty{text-align:center;padding:4rem 2rem;color:#888}
   .empty-icon{font-size:48px;margin-bottom:1rem}
   .loading{text-align:center;padding:4rem;color:#888;font-size:15px}
@@ -120,25 +141,74 @@
       <span>MONACO AUTOMOTORES</span>
       <span>Venta de Autos · Salta</span>
     </div>
-  </a>  <div class="nav-links">
+  </a>
+  <div class="nav-links">
     <a onclick="showPage('inicio')" id="nav-inicio" class="active">Inicio</a>
     <a onclick="showPage('catalogo')" id="nav-catalogo">Catálogo</a>
     <a onclick="showPage('contacto')" id="nav-contacto">Contacto</a>
-    <a onclick="showPage('admin')" id="nav-admin" style="color:#ffcc44">Admin</a>
+    <a onclick="showPage('admin')" id="nav-admin" style="color:#e63030;font-weight:700">Admin</a>
   </div>
 </nav>
 
 <!-- INICIO -->
 <div id="page-inicio" class="page active">
-  <div class="hero">
-    <h1>Compras · Ventas · Permutas · Financiación</h1>
-    <p>Tu concesionaria de confianza en Salta — autos 0 km y usados seleccionados</p>
-    <div class="hero-badges">
-      <span class="badge">✔ Precio justo garantizado</span>
-      <span class="badge">🛡 Autos verificados</span>
-      <span class="badge">🔄 Recibimos tu usado</span>
+
+  <!-- CARRUSEL -->
+  <div class="carousel">
+    <div class="carousel-track" id="carousel-track">
+      <!-- Slide 1 -->
+      <div class="carousel-slide slide-1">
+        <div class="slide-content">
+          <div class="slide-tag">BIENVENIDOS</div>
+          <div class="slide-title">Compras · Ventas<br>Permutas</div>
+          <div class="slide-sub">Encontrá el auto ideal para vos en Monaco Automotores.<br>Autos 0 km y usados seleccionados en Salta.</div>
+          <button class="slide-btn" onclick="showPage('catalogo')">Ver catálogo →</button>
+          <div class="slide-badge-row">
+            <span class="slide-badge">✔ Autos verificados</span>
+            <span class="slide-badge">🔄 Recibimos tu usado</span>
+          </div>
+        </div>
+        <div class="slide-deco">🚗</div>
+      </div>
+      <!-- Slide 2 -->
+      <div class="carousel-slide slide-2">
+        <div class="slide-content">
+          <div class="slide-tag">FINANCIACIÓN</div>
+          <div class="slide-title">Llevate tu auto<br>hoy mismo</div>
+          <div class="slide-sub">Financiación a medida con crédito personal o prendario.<br>Retiralo solo con DNI. ¡Entrega inmediata!</div>
+          <button class="slide-btn" onclick="showPage('contacto')">Consultanos →</button>
+          <div class="slide-badge-row">
+            <span class="slide-badge">💳 Visa</span>
+            <span class="slide-badge">💳 Mastercard</span>
+            <span class="slide-badge">🟠 Naranja X</span>
+          </div>
+        </div>
+        <div class="slide-deco">💳</div>
+      </div>
+      <!-- Slide 3 -->
+      <div class="carousel-slide slide-3">
+        <div class="slide-content">
+          <div class="slide-tag">PERMUTA</div>
+          <div class="slide-title">Recibimos<br>tu usado</div>
+          <div class="slide-sub">Traé tu auto, lo valuamos al instante y lo usamos como parte de pago.<br>Sin vueltas, sin demoras.</div>
+          <button class="slide-btn" onclick="showPage('contacto')">Solicitar valuación →</button>
+          <div class="slide-badge-row">
+            <span class="slide-badge">⚡ Valuación inmediata</span>
+            <span class="slide-badge">✔ Precio justo</span>
+          </div>
+        </div>
+        <div class="slide-deco">🔄</div>
+      </div>
+    </div>
+    <button class="carousel-btn prev" onclick="moverCarrusel(-1)">&#8249;</button>
+    <button class="carousel-btn next" onclick="moverCarrusel(1)">&#8250;</button>
+    <div class="carousel-dots">
+      <div class="dot active" onclick="irASlide(0)"></div>
+      <div class="dot" onclick="irASlide(1)"></div>
+      <div class="dot" onclick="irASlide(2)"></div>
     </div>
   </div>
+
   <div class="section">
     <div class="section-title">Destacados de la semana</div>
     <div id="destacados-grid" class="cars-grid">
@@ -148,6 +218,7 @@
       <button class="filter-btn" style="padding:10px 28px;font-size:14px" onclick="showPage('catalogo')">Ver todo el catálogo →</button>
     </div>
   </div>
+
   <div class="brands-section">
     <div class="brands-title">MARCAS QUE TRABAJAMOS</div>
     <div class="brands-row">
@@ -158,7 +229,14 @@
       <span class="brand-pill">Peugeot</span>
     </div>
   </div>
-  <div class="footer"><img src="https://i.imgur.com/S6HqP9X.jpeg" alt="Monaco Automotores" style="height:32px;vertical-align:middle;margin-right:8px"><span>MONACO AUTOMOTORES</span> · Salta Capital · © 2025</div>
+
+  <div class="footer">
+    <img src="https://i.imgur.com/S6HqP9X.jpeg" alt="Monaco Automotores" style="height:32px;vertical-align:middle;margin-right:8px">
+    <span>MONACO AUTOMOTORES</span> · Salta Capital · © 2025
+  </div>
+</div>
+
+<!-- CATALOGO -->
 <div id="page-catalogo" class="page">
   <div class="section">
     <div class="section-title">Catálogo completo</div>
@@ -257,7 +335,7 @@
         </div>
         <div class="form-group"><input type="text" id="a-etiqueta" placeholder='Etiqueta (ej: IMPERDIBLE)'></div>
       </div>
-      <div class="form-group"><input type="text" id="a-foto" placeholder="URL de la foto (opcional)"></div>
+      <div class="form-group"><input type="text" id="a-foto" placeholder="URL de la foto (opcional — subila a imgur.com)"></div>
       <button class="add-btn" onclick="agregarAuto()">Agregar auto</button>
     </div>
     <div class="section-title" style="margin-bottom:1rem">Autos cargados</div>
@@ -267,7 +345,6 @@
 
 <div class="toast" id="toast"></div>
 
-<!-- FIREBASE -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -283,9 +360,25 @@
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
-
   const ADMIN_PASS = "monaco2025";
   let todosLosAutos = [];
+
+  // CARRUSEL
+  let slideActual = 0;
+  const totalSlides = 3;
+  window.moverCarrusel = function(dir) {
+    slideActual = (slideActual + dir + totalSlides) % totalSlides;
+    actualizarCarrusel();
+  }
+  window.irASlide = function(n) {
+    slideActual = n;
+    actualizarCarrusel();
+  }
+  function actualizarCarrusel() {
+    document.getElementById('carousel-track').style.transform = `translateX(-${slideActual * 100}%)`;
+    document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i === slideActual));
+  }
+  setInterval(() => { slideActual = (slideActual + 1) % totalSlides; actualizarCarrusel(); }, 5000);
 
   // NAVEGACION
   window.showPage = function(page) {
@@ -294,10 +387,9 @@
     document.getElementById('page-' + page).classList.add('active');
     document.getElementById('nav-' + page).classList.add('active');
     if(page === 'inicio' || page === 'catalogo') cargarAutos();
-    if(page === 'admin' && document.getElementById('admin-panel').style.display === 'flex') cargarListaAdmin();
+    if(page === 'admin' && document.getElementById('admin-panel').style.display === 'block') cargarListaAdmin();
   }
 
-  // TOAST
   window.toast = function(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg;
@@ -305,10 +397,8 @@
     setTimeout(() => t.classList.remove('show'), 2800);
   }
 
-  // ADMIN LOGIN
   window.checkPass = function() {
-    const pass = document.getElementById('pass-input').value;
-    if(pass === ADMIN_PASS) {
+    if(document.getElementById('pass-input').value === ADMIN_PASS) {
       document.getElementById('admin-login').style.display = 'none';
       document.getElementById('admin-panel').style.display = 'block';
       cargarListaAdmin();
@@ -317,73 +407,59 @@
     }
   }
 
-  // CARGAR AUTOS
   async function cargarAutos() {
     try {
       const q = query(collection(db, "autos"), orderBy("fecha", "desc"));
       const snap = await getDocs(q);
       todosLosAutos = [];
       snap.forEach(d => todosLosAutos.push({id: d.id, ...d.data()}));
-      renderCatalogo(todosLosAutos);
       renderDestacados(todosLosAutos);
-    } catch(e) {
-      console.error(e);
-    }
+      renderCatalogo(todosLosAutos);
+    } catch(e) { console.error(e); }
   }
 
   function cardHTML(auto, adminMode) {
     const esVendido = auto.vendido;
     const tag = esVendido ? 'VENDIDO' : (auto.etiqueta || (auto.condicion === '0km' ? '0 KM' : ''));
     const tagClass = esVendido ? 'vendido-tag' : (auto.condicion === '0km' ? 'okm' : '');
-    const imgContent = auto.foto
-      ? `<img src="${auto.foto}" alt="${auto.marca} ${auto.modelo}" onerror="this.parentElement.innerHTML='🚗'">`
-      : '🚗';
-    const adminBtns = adminMode ? `
-      <div class="car-actions">
-        ${!esVendido
-          ? `<button class="btn-vender" onclick="marcarVendido('${auto.id}',true)">Marcar vendido</button>`
-          : `<button class="btn-restaurar" onclick="marcarVendido('${auto.id}',false)">Disponible</button>`}
-        <button class="btn-eliminar" onclick="eliminarAuto('${auto.id}')">Eliminar</button>
-      </div>` : '';
-    return `
-      <div class="car-card ${esVendido ? 'vendido' : ''}">
-        <div class="car-img">
-          ${imgContent}
-          ${tag ? `<span class="car-tag ${tagClass}">${tag}</span>` : ''}
+    const imgContent = auto.foto ? `<img src="${auto.foto}" alt="${auto.marca} ${auto.modelo}" onerror="this.parentElement.innerHTML='🚗'">` : '🚗';
+    const adminBtns = adminMode ? `<div class="car-actions">
+      ${!esVendido
+        ? `<button class="btn-vender" onclick="marcarVendido('${auto.id}',true)">Marcar vendido</button>`
+        : `<button class="btn-restaurar" onclick="marcarVendido('${auto.id}',false)">Disponible</button>`}
+      <button class="btn-eliminar" onclick="eliminarAuto('${auto.id}')">Eliminar</button>
+    </div>` : '';
+    return `<div class="car-card ${esVendido ? 'vendido' : ''}">
+      <div class="car-img">${imgContent}${tag ? `<span class="car-tag ${tagClass}">${tag}</span>` : ''}</div>
+      <div class="car-body">
+        <div class="car-name">${auto.marca} ${auto.modelo}</div>
+        <div class="car-price">$${auto.precio}</div>
+        <div class="car-specs">
+          <span class="spec">📅 ${auto.anio}</span>
+          <span class="spec">🛣 ${auto.km} km</span>
+          <span class="spec">${auto.combustible}</span>
         </div>
-        <div class="car-body">
-          <div class="car-name">${auto.marca} ${auto.modelo}</div>
-          <div class="car-price">$${auto.precio}</div>
-          <div class="car-specs">
-            <span class="spec">📅 ${auto.anio}</span>
-            <span class="spec">🛣 ${auto.km} km</span>
-            <span class="spec">${auto.combustible}</span>
-          </div>
-          ${adminBtns}
-        </div>
-      </div>`;
+        ${adminBtns}
+      </div>
+    </div>`;
   }
 
   function renderDestacados(autos) {
-    const disponibles = autos.filter(a => !a.vendido).slice(0, 3);
     const grid = document.getElementById('destacados-grid');
     if(!grid) return;
-    if(disponibles.length === 0) {
-      grid.innerHTML = '<div class="empty"><div class="empty-icon">🚗</div><p>Próximamente nuevos vehículos</p></div>';
-      return;
-    }
-    grid.innerHTML = disponibles.map(a => cardHTML(a, false)).join('');
+    const disponibles = autos.filter(a => !a.vendido).slice(0, 3);
+    grid.innerHTML = disponibles.length === 0
+      ? '<div class="empty"><div class="empty-icon">🚗</div><p>Próximamente nuevos vehículos</p></div>'
+      : disponibles.map(a => cardHTML(a, false)).join('');
   }
 
   function renderCatalogo(autos) {
     const grid = document.getElementById('catalogo-grid');
     if(!grid) return;
     const disponibles = autos.filter(a => !a.vendido);
-    if(disponibles.length === 0) {
-      grid.innerHTML = '<div class="empty"><div class="empty-icon">🚗</div><p>No hay vehículos disponibles en este momento</p></div>';
-      return;
-    }
-    grid.innerHTML = disponibles.map(a => cardHTML(a, false)).join('');
+    grid.innerHTML = disponibles.length === 0
+      ? '<div class="empty"><div class="empty-icon">🚗</div><p>No hay vehículos disponibles en este momento</p></div>'
+      : disponibles.map(a => cardHTML(a, false)).join('');
   }
 
   window.filtrarAutos = function() {
@@ -395,7 +471,6 @@
     renderCatalogo(filtrados);
   }
 
-  // ADMIN FUNCIONES
   window.agregarAuto = async function() {
     const marca = document.getElementById('a-marca').value.trim();
     const modelo = document.getElementById('a-modelo').value.trim();
@@ -440,10 +515,7 @@
       const snap = await getDocs(q);
       let autos = [];
       snap.forEach(d => autos.push({id: d.id, ...d.data()}));
-      if(autos.length === 0) {
-        lista.innerHTML = '<div class="empty"><p>No hay autos cargados aún</p></div>';
-        return;
-      }
+      if(autos.length === 0) { lista.innerHTML = '<div class="empty"><p>No hay autos cargados aún</p></div>'; return; }
       lista.innerHTML = autos.map(a => `
         <div class="admin-item ${a.vendido ? 'vendido-item' : ''}">
           <div class="admin-item-info">
@@ -460,7 +532,6 @@
     } catch(e) { lista.innerHTML = '<div class="empty"><p>Error al cargar</p></div>'; }
   }
 
-  // CONTACTO
   window.enviarConsulta = function() {
     const nombre = document.getElementById('c-nombre').value.trim();
     const tel = document.getElementById('c-tel').value.trim();
@@ -471,7 +542,6 @@
     window.open('https://wa.me/5493870000000?text=' + encodeURIComponent(texto), '_blank');
   }
 
-  // CARGAR AL INICIO
   cargarAutos();
 </script>
 </body>
