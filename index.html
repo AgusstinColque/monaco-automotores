@@ -428,6 +428,154 @@ nav a{
   .vehicle-details{padding:20px;}
   #modalTitulo{font-size:18px;}
 }
+
+/* ============================================
+   MOBILE RESPONSIVE — COMPLETO
+   ============================================ */
+
+/* NAV MOBILE */
+@media(max-width:768px){
+  .nav{
+    padding:0 1rem;
+    height:60px;
+    gap:10px;
+  }
+  .logo-icon img{height:38px}
+
+  /* Hamburger */
+  .nav-hamburger{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:5px;
+    width:36px;
+    height:36px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:4px;
+    flex-shrink:0;
+    border-radius:6px;
+    transition:background .15s;
+  }
+  .nav-hamburger:hover{background:#f4f6fb}
+  .nav-hamburger span{display:block;height:2px;background:#0a1f5c;border-radius:2px;transition:transform .25s,opacity .25s}
+  .nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav-hamburger.open span:nth-child(2){opacity:0}
+  .nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+  /* Links collapse */
+  .nav-links{
+    display:none;
+    position:fixed;
+    top:60px;
+    left:0;right:0;
+    background:#fff;
+    border-bottom:2px solid #dee3f0;
+    flex-direction:column;
+    gap:0;
+    padding:0;
+    z-index:99;
+    box-shadow:0 8px 24px rgba(10,31,92,0.1);
+  }
+  .nav-links.open{display:flex}
+  .nav-links a{
+    padding:15px 1.25rem;
+    font-size:15px;
+    border-bottom:1px solid #f0f2f8;
+    border-left:none;
+  }
+  .nav-links a:last-child{border-bottom:none}
+  .nav-links a.active{border-bottom:1px solid #f0f2f8;border-left:3px solid #e63030;color:#0a1f5c}
+
+  /* Buscador: se expande en fila */
+  .nav-search{
+    flex:1;
+    margin:0;
+    max-width:none;
+  }
+  .nav-search-inner{border-radius:7px}
+  .nav-search input{font-size:14px;padding:8px 4px}
+  .nav-search-dropdown{
+    position:fixed;
+    top:60px;
+    left:0;right:0;
+    border-radius:0;
+    border-left:none;border-right:none;border-top:none;
+    box-shadow:0 8px 24px rgba(10,31,92,0.15);
+    max-height:60vh;
+    overflow-y:auto;
+  }
+
+  /* SECTION */
+  .section{padding:1.25rem 1rem}
+  .section-title{font-size:16px}
+
+  /* GRID: 2 columnas en mobile */
+  .cars-grid{grid-template-columns:repeat(2,1fr);gap:0.75rem}
+  .car-img{height:130px}
+  .car-body{padding:0.75rem}
+  .car-name{font-size:13px}
+  .car-price{font-size:16px;margin-bottom:6px}
+  .car-specs .spec{font-size:11px}
+
+  /* FILTERS */
+  .filters{gap:0.6rem;padding:0.85rem 1rem}
+  .filter-select{font-size:12px;padding:6px 8px;flex:1}
+  .filter-btn{padding:6px 14px;font-size:12px}
+
+  /* BRANDS */
+  .brands-section{padding:1.5rem 0}
+  .brand-logo{height:60px;width:130px}
+  .brand-logo img{max-height:52px;max-width:110px}
+
+  /* FOOTER */
+  .footer{padding:2rem 1rem 1.5rem;margin-top:1.5rem}
+  .footer-inner{gap:1.5rem}
+
+  /* ADMIN */
+  .admin-panel{padding:1rem}
+  .admin-item{flex-wrap:wrap}
+  .admin-item-btns{width:100%;justify-content:flex-end}
+}
+
+/* Pantallas muy chicas (iPhone SE, etc.) */
+@media(max-width:380px){
+  .cars-grid{grid-template-columns:1fr}
+  .car-img{height:170px}
+}
+
+/* MODAL MOBILE — pantalla completa */
+@media(max-width:768px){
+  .modal{padding:0;align-items:flex-end}
+  .modal-content{
+    border-radius:16px 16px 0 0;
+    max-height:93vh;
+    width:100%;
+    overflow-y:auto;
+  }
+  .modal-body{
+    grid-template-columns:1fr;
+  }
+  .modal-img{height:240px}
+  .modal-img-col{border-radius:0}
+  .vehicle-details{padding:20px 18px 28px}
+  #modalTitulo{font-size:19px}
+  .premium-price-value{font-size:24px}
+  .modal-nav{
+    padding:8px 12px;
+    position:sticky;
+    top:0;
+    z-index:10;
+    background:#fff;
+  }
+  .modal-thumbs{padding:10px 12px;gap:6px}
+  .modal-thumbs img{width:62px;height:44px}
+}
+
+/* Hamburger oculto en desktop */
+.nav-hamburger{display:none}
+
 </style>
 
 </head>
@@ -449,11 +597,14 @@ nav a{
     </div>
     <div class="nav-search-dropdown" id="nav-search-dropdown"></div>
   </div>
-  <div class="nav-links">
-    <a onclick="showPage('inicio')" id="nav-inicio" class="active">Inicio</a>
-    <a onclick="showPage('catalogo')" id="nav-catalogo">Catálogo</a>
-    <a onclick="showPage('contacto')" id="nav-contacto">Contacto</a>
+  <div class="nav-links" id="nav-links">
+    <a onclick="showPage('inicio');cerrarMenu()" id="nav-inicio" class="active">Inicio</a>
+    <a onclick="showPage('catalogo');cerrarMenu()" id="nav-catalogo">Catálogo</a>
+    <a onclick="showPage('contacto');cerrarMenu()" id="nav-contacto">Contacto</a>
   </div>
+  <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMenu()" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- INICIO -->
@@ -544,22 +695,7 @@ nav a{
 <div id="page-catalogo" class="page">
   <div class="section">
     <div class="section-title">Catálogo completo</div>
-    <div class="filters">
-      <span class="filter-label">Filtrar:</span>
-      <select class="filter-select" id="f-condicion">
-        <option value="">Todos</option>
-        <option value="0km">0 km</option>
-        <option value="usado">Usado</option>
-      </select>
-      <select class="filter-select" id="f-combustible">
-        <option value="">Combustible</option>
-        <option value="Nafta">Nafta</option>
-        <option value="Diesel">Diesel</option>
-        <option value="Nafta - GNC">Nafta - GNC</option>
-        <option value="Eléctrico">Eléctrico</option>
-      </select>
-      <button class="filter-btn" onclick="filtrarAutos()">Buscar</button>
-    </div>
+
     <div id="catalogo-grid" class="cars-grid">
       <div class="loading">Cargando autos...</div>
     </div>
@@ -926,6 +1062,25 @@ document.getElementById('vehiculoModal').addEventListener('click',function(e){
 });
 
 // ===== BUSCADOR NAV =====
+// ===== MENU MOBILE =====
+window.toggleMenu = function(){
+  const links = document.getElementById('nav-links');
+  const btn = document.getElementById('nav-hamburger');
+  links.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+window.cerrarMenu = function(){
+  document.getElementById('nav-links').classList.remove('open');
+  document.getElementById('nav-hamburger').classList.remove('open');
+}
+// Cerrar menú al tocar fuera
+document.addEventListener('click', function(e){
+  const nav = document.querySelector('.nav');
+  if(!nav.contains(e.target)){
+    cerrarMenu();
+  }
+});
+
 window.buscarEnNav = function(q) {
   const clear = document.getElementById('nav-search-clear');
   const dropdown = document.getElementById('nav-search-dropdown');
