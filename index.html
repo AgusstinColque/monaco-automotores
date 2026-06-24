@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -11,6 +11,7 @@
   /* NAV BLANCO */
   .nav{background:#fff;border-bottom:2px solid #dee3f0;display:flex;align-items:center;padding:0 2rem;height:72px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.07)}
   .nav-top-row{display:contents}
+  .nav-mobile-search{display:none}
   .logo-text{display:flex;align-items:center;gap:12px;text-decoration:none;cursor:pointer}
   .logo-icon{height:48px;display:flex;align-items:center}
   .logo-icon img{height:48px;width:auto;max-width:220px;object-fit:contain}
@@ -436,45 +437,56 @@ nav a{
 
 /* NAV MOBILE */
 @media(max-width:768px){
-  /* Nav: 2 filas — top bar + buscador */
+  /* Nav: solo logo + hamburger */
   .nav{
-    padding:0;
-    height:auto;
-    flex-direction:column;
-    align-items:stretch;
+    padding:0 1rem;
+    height:60px;
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
     gap:0;
   }
   .nav-top-row{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:0 1rem;
-    height:56px;
-    gap:10px;
+    width:100%;
   }
   .logo-icon img{height:36px}
 
-  /* Buscador en segunda fila */
-  .nav-search{
-    flex:none;
-    margin:0;
-    max-width:none;
-    padding:0 1rem 10px;
-    width:100%;
+  /* Ocultar buscador del nav en mobile */
+  .nav-search{display:none !important}
+
+  /* Buscador mobile debajo del carrusel */
+  .nav-mobile-search{
+    display:block;
+    padding:14px 1rem 4px;
+    background:#fff;
   }
-  .nav-search-inner{border-radius:7px}
-  .nav-search input{font-size:14px;padding:8px 4px}
-  .nav-search-dropdown{
+  .nav-mobile-search .nav-search-inner{
+    display:flex;
+    align-items:center;
+    background:#f4f6fb;
+    border:1.5px solid #e2e6f0;
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .nav-mobile-search .nav-search-icon{display:flex;align-items:center;padding:0 10px 0 13px;color:#9aa3b8;flex-shrink:0}
+  .nav-mobile-search input{flex:1;border:none;background:transparent;padding:11px 4px;font-size:15px;font-family:'Inter',sans-serif;color:#1a1a2e;outline:none}
+  .nav-mobile-search input::placeholder{color:#b0b8cc}
+  .nav-mobile-search-dropdown{
     position:fixed;
-    top:102px;
+    top:60px;
     left:0;right:0;
-    border-radius:0;
-    border-left:none;border-right:none;border-top:none;
+    background:#fff;
+    border-bottom:1px solid #e2e6f0;
     box-shadow:0 8px 24px rgba(10,31,92,0.15);
     max-height:60vh;
     overflow-y:auto;
     z-index:300;
+    display:none;
   }
+  .nav-mobile-search-dropdown.open{display:block}
 
   /* Hamburger */
   .nav-hamburger{
@@ -482,27 +494,25 @@ nav a{
     flex-direction:column;
     justify-content:center;
     gap:5px;
-    width:40px;
-    height:40px;
+    width:42px;
+    height:42px;
     background:none;
-    border:1.5px solid #e2e6f0;
+    border:none;
     cursor:pointer;
     padding:6px;
     flex-shrink:0;
     border-radius:8px;
-    transition:background .15s,border-color .15s;
   }
-  .nav-hamburger:hover{background:#f4f6fb;border-color:#c8cedc}
-  .nav-hamburger span{display:block;height:2px;background:#0a1f5c;border-radius:2px;transition:transform .25s,opacity .25s}
+  .nav-hamburger span{display:block;height:2.5px;background:#0a1f5c;border-radius:2px;transition:transform .25s,opacity .25s}
   .nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
   .nav-hamburger.open span:nth-child(2){opacity:0}
   .nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
-  /* Links collapse */
+  /* Links collapse — desde top:60px */
   .nav-links{
     display:none;
     position:fixed;
-    top:102px;
+    top:60px;
     left:0;right:0;
     background:#fff;
     border-bottom:2px solid #dee3f0;
@@ -514,10 +524,12 @@ nav a{
   }
   .nav-links.open{display:flex}
   .nav-links a{
-    padding:16px 1.25rem;
-    font-size:15px;
+    padding:17px 1.25rem;
+    font-size:16px;
+    font-weight:500;
     border-bottom:1px solid #f0f2f8;
     border-left:3px solid transparent;
+    color:#1a1a2e;
   }
   .nav-links a:last-child{border-bottom:none}
   .nav-links a.active{border-left:3px solid #e63030;color:#0a1f5c;background:#fafbff}
@@ -645,6 +657,17 @@ nav a{
       <div class="dot active" onclick="irASlide(0)"></div>
       <div class="dot" onclick="irASlide(1)"></div>
     </div>
+  </div>
+
+  <!-- BUSCADOR MOBILE (solo visible en celular) -->
+  <div class="nav-mobile-search">
+    <div class="nav-search-inner">
+      <span class="nav-search-icon">
+        <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="6"/><line x1="15" y1="15" x2="19" y2="19"/></svg>
+      </span>
+      <input type="text" id="mobile-search-input" placeholder="Buscar por marca o modelo..." autocomplete="off" oninput="buscarEnNavMobile(this.value)" onfocus="mostrarDropdownMobile()" onblur="ocultarDropdownDelay()">
+    </div>
+    <div class="nav-mobile-search-dropdown" id="nav-mobile-search-dropdown"></div>
   </div>
 
   <div class="section">
@@ -1079,6 +1102,54 @@ document.getElementById('vehiculoModal').addEventListener('click',function(e){
 });
 
 // ===== BUSCADOR NAV =====
+// ===== BUSCADOR MOBILE =====
+window.buscarEnNavMobile = function(q) {
+  const dropdown = document.getElementById('nav-mobile-search-dropdown');
+  q = q.trim();
+  if(!q) { dropdown.classList.remove('open'); return; }
+  const ql = q.toLowerCase();
+  const resultados = todosLosAutos.filter(a =>
+    !a.vendido && (
+      (a.marca||'').toLowerCase().includes(ql) ||
+      (a.modelo||'').toLowerCase().includes(ql)
+    )
+  ).slice(0, 6);
+
+  function highlight(text) {
+    const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\]/g,'\$&') + ')', 'gi');
+    return (text||'').replace(re, '<mark style="background:#fff0b3;color:#0d1b2e;border-radius:2px;padding:0 1px">$1</mark>');
+  }
+
+  if(resultados.length === 0) {
+    dropdown.innerHTML = `<div class="search-no-result">Sin resultados para <strong>"${q}"</strong></div>`;
+  } else {
+    const header = `<div class="search-dropdown-header">${resultados.length} vehículo${resultados.length!==1?'s':''} encontrado${resultados.length!==1?'s':''}</div>`;
+    const items = resultados.map(a => {
+      const foto = a.fotos&&a.fotos.length ? a.fotos[0] : a.foto;
+      const thumb = foto
+        ? `<img class="search-result-thumb" src="${foto}" alt="${a.marca}" onerror="this.style.display='none'">`
+        : `<div class="search-result-thumb-placeholder">&#128663;</div>`;
+      const km = a.km ? `<span class="search-result-km">${Number(a.km).toLocaleString('es-AR')} km</span>` : '';
+      return `<div class="search-result-item" onmousedown="seleccionarResultado(${JSON.stringify(a).replace(/'/g,'&#39;')})">
+        ${thumb}
+        <div class="search-result-info">
+          <div class="search-result-name">${highlight(a.marca)} ${highlight(a.modelo)} <span style="font-weight:400;color:#9aa3b8">${a.anio||''}</span></div>
+          <div class="search-result-sub"><span class="search-result-price">$${Number(a.precio).toLocaleString('es-AR')}</span>${km}</div>
+        </div>
+        <svg class="search-result-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 4 10 8 6 12"/></svg>
+      </div>`;
+    }).join('');
+    const footer = `<div class="search-footer-link" onmousedown="showPage('catalogo');document.getElementById('mobile-search-input').value=''">Ver todo el catálogo &rarr;</div>`;
+    dropdown.innerHTML = header + items + footer;
+  }
+  dropdown.classList.add('open');
+}
+
+window.mostrarDropdownMobile = function() {
+  const q = document.getElementById('mobile-search-input').value.trim();
+  if(q) buscarEnNavMobile(q);
+}
+
 // ===== MENU MOBILE =====
 window.toggleMenu = function(){
   const links = document.getElementById('nav-links');
