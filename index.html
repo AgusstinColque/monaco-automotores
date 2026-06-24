@@ -10,8 +10,8 @@
   /* NAV BLANCO */
   .nav{background:#fff;border-bottom:2px solid #dee3f0;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:72px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.07)}
   .logo-text{display:flex;align-items:center;gap:12px;text-decoration:none;cursor:pointer}
-  .logo-icon{height:56px;display:flex;align-items:center}
-  .logo-icon img{height:56px;width:auto;object-fit:contain;border-radius:6px}
+  .logo-icon{height:48px;display:flex;align-items:center}
+  .logo-icon img{height:48px;width:auto;max-width:220px;object-fit:contain}
   .logo-nombre{display:flex;flex-direction:column;line-height:1.2}
   .logo-nombre span:first-child{font-size:17px;font-weight:700;letter-spacing:2px;color:#0a1f5c}
   .logo-nombre span:last-child{font-size:11px;font-weight:400;color:#888;letter-spacing:1px}
@@ -22,25 +22,11 @@
   .page{display:none}
   .page.active{display:block}
   /* CARRUSEL */
-  .carousel{position:relative;width:100%;height:420px;overflow:hidden;background:#0a1f5c}
-  .carousel-track{display:flex;height:100%;transition:transform .5s ease}
-  .carousel-slide{min-width:100%;height:100%;display:flex;align-items:center;justify-content:space-between;padding:3rem 6rem;position:relative;overflow:hidden}
-  .slide-1{background:linear-gradient(120deg,#0a1f5c 0%,#1a3a8f 50%,#e63030 100%)}
-  .slide-2{background:linear-gradient(120deg,#e63030 0%,#c22020 40%,#0a1f5c 100%)}
-  .slide-3{background:linear-gradient(120deg,#0a3a1f 0%,#0a7a3a 50%,#0a1f5c 100%)}
-  .slide-content{z-index:2;max-width:55%}
-  .slide-tag{display:inline-block;background:#e63030;color:#fff;font-size:12px;font-weight:700;letter-spacing:2px;padding:4px 14px;border-radius:20px;margin-bottom:1rem}
-  .slide-2 .slide-tag{background:#0a1f5c}
-  .slide-3 .slide-tag{background:#fff;color:#0a3a1f}
-  .slide-title{font-size:2.4rem;font-weight:800;color:#fff;line-height:1.15;margin-bottom:1rem;text-transform:uppercase;letter-spacing:1px}
-  .slide-sub{font-size:1rem;color:rgba(255,255,255,0.85);margin-bottom:1.5rem;line-height:1.6}
-  .slide-btn{background:#fff;color:#0a1f5c;border:none;border-radius:8px;padding:12px 28px;font-size:14px;font-weight:700;cursor:pointer;transition:transform .15s}
-  .slide-btn:hover{transform:scale(1.04)}
-  .slide-2 .slide-btn{background:#0a1f5c;color:#fff}
-  .slide-3 .slide-btn{background:#0a7a3a;color:#fff}
-  .slide-deco{position:absolute;right:4rem;top:50%;transform:translateY(-50%);font-size:10rem;opacity:.18;z-index:1;pointer-events:none}
-  .slide-badge-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem}
-  .slide-badge{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:20px;padding:5px 14px;font-size:12px;color:#fff;font-weight:500}
+  .carousel{position:relative;width:100%;height:auto;overflow:hidden;background:#0a1f5c}
+  .carousel-track{display:flex;transition:transform .5s ease}
+  .carousel-slide{min-width:100%;position:relative;overflow:hidden;line-height:0}
+  .carousel-slide img{width:100%;height:auto;display:block}
+  @media(max-width:768px){.carousel-slide img{height:auto}}
   /* FLECHAS */
   .carousel-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.4);color:#fff;width:44px;height:44px;border-radius:50%;font-size:20px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;transition:background .2s}
   .carousel-btn:hover{background:rgba(255,255,255,0.35)}
@@ -122,8 +108,13 @@
   .admin-item-sub{font-size:13px;color:#888;margin-top:2px}
   .admin-item-btns{display:flex;gap:6px;flex-shrink:0}
   /* FOOTER */
-  .footer{background:#060f2e;color:#8899cc;padding:1.5rem 2rem;text-align:center;font-size:13px;margin-top:2rem}
+  .footer{background:#060f2e;color:#8899cc;padding:1.5rem 2rem;font-size:13px;margin-top:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:1100px;margin-left:auto;margin-right:auto}
   .footer span{color:#c8d4f0;font-weight:600}
+  .footer-social{display:flex;align-items:center;gap:10px}
+  .footer-social .wa-btn{margin-top:0;padding:8px 16px;font-size:13px}
+  .footer-social .social-btn{width:36px;height:36px;font-size:16px;background:rgba(255,255,255,0.08)}
+  .footer-social .social-btn:hover{background:rgba(255,255,255,0.18)}
+  @media(max-width:600px){.footer{justify-content:center;text-align:center}}
   /* TOAST */
   .toast{position:fixed;bottom:24px;right:24px;background:#0a1f5c;color:#fff;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:500;opacity:0;transition:opacity .3s;z-index:9999;pointer-events:none}
   .toast.show{opacity:1}
@@ -136,11 +127,7 @@
 
 <nav class="nav">
   <a class="logo-text" onclick="showPage('inicio')">
-    <div class="logo-icon"><img src="https://i.imgur.com/S6HqP9X.jpeg" alt="Monaco Automotores"></div>
-    <div class="logo-nombre">
-      <span>MONACO AUTOMOTORES</span>
-      <span>Venta de Autos · Salta</span>
-    </div>
+    <div class="logo-icon"><img src="https://i.imgur.com/BfTLW7t.png" alt="Monaco Automotores"></div>
   </a>
   <div class="nav-links">
     <a onclick="showPage('inicio')" id="nav-inicio" class="active">Inicio</a>
@@ -158,46 +145,11 @@
     <div class="carousel-track" id="carousel-track">
       <!-- Slide 1 -->
       <div class="carousel-slide slide-1">
-        <div class="slide-content">
-          <div class="slide-tag">BIENVENIDOS</div>
-          <div class="slide-title">Compras · Ventas<br>Permutas</div>
-          <div class="slide-sub">Encontrá el auto ideal para vos en Monaco Automotores.<br>Autos 0 km y usados seleccionados en Salta.</div>
-          <button class="slide-btn" onclick="showPage('catalogo')">Ver catálogo →</button>
-          <div class="slide-badge-row">
-            <span class="slide-badge">✔ Autos verificados</span>
-            <span class="slide-badge">🔄 Recibimos tu usado</span>
-          </div>
-        </div>
-        <div class="slide-deco">🚗</div>
+        <img src="https://i.imgur.com/OBerSb8.png" alt="Monaco Automotores - Promoción 1">
       </div>
       <!-- Slide 2 -->
       <div class="carousel-slide slide-2">
-        <div class="slide-content">
-          <div class="slide-tag">FINANCIACIÓN</div>
-          <div class="slide-title">Llevate tu auto<br>hoy mismo</div>
-          <div class="slide-sub">Financiación a medida con crédito personal o prendario.<br>Retiralo solo con DNI. ¡Entrega inmediata!</div>
-          <button class="slide-btn" onclick="showPage('contacto')">Consultanos →</button>
-          <div class="slide-badge-row">
-            <span class="slide-badge">💳 Visa</span>
-            <span class="slide-badge">💳 Mastercard</span>
-            <span class="slide-badge">🟠 Naranja X</span>
-          </div>
-        </div>
-        <div class="slide-deco">💳</div>
-      </div>
-      <!-- Slide 3 -->
-      <div class="carousel-slide slide-3">
-        <div class="slide-content">
-          <div class="slide-tag">PERMUTA</div>
-          <div class="slide-title">Recibimos<br>tu usado</div>
-          <div class="slide-sub">Traé tu auto, lo valuamos al instante y lo usamos como parte de pago.<br>Sin vueltas, sin demoras.</div>
-          <button class="slide-btn" onclick="showPage('contacto')">Solicitar valuación →</button>
-          <div class="slide-badge-row">
-            <span class="slide-badge">⚡ Valuación inmediata</span>
-            <span class="slide-badge">✔ Precio justo</span>
-          </div>
-        </div>
-        <div class="slide-deco">🔄</div>
+        <img src="https://i.imgur.com/K2VTJAJ.png" alt="Monaco Automotores - Promoción 2">
       </div>
     </div>
     <button class="carousel-btn prev" onclick="moverCarrusel(-1)">&#8249;</button>
@@ -205,7 +157,6 @@
     <div class="carousel-dots">
       <div class="dot active" onclick="irASlide(0)"></div>
       <div class="dot" onclick="irASlide(1)"></div>
-      <div class="dot" onclick="irASlide(2)"></div>
     </div>
   </div>
 
@@ -231,8 +182,12 @@
   </div>
 
   <div class="footer">
-    <img src="https://i.imgur.com/S6HqP9X.jpeg" alt="Monaco Automotores" style="height:32px;vertical-align:middle;margin-right:8px">
-    <span>MONACO AUTOMOTORES</span> · Salta Capital · © 2025
+    <div><span>MONACO AUTOMOTORES</span> · Salta Capital · © 2025</div>
+    <div class="footer-social">
+      <a class="wa-btn" href="https://wa.me/5493875482700" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.149-.149.347-.371.521-.557.174-.187.231-.32.346-.534.115-.214.058-.4-.04-.534-.099-.133-.444-1.07-.61-1.43-.165-.36-.336-.31-.46-.31-.116 0-.247-.024-.379-.024-.131 0-.345.05-.527.213-.182.165-.694.677-.694 1.65 0 .974.7 1.916.798 2.046.099.13 1.351 2.066 3.275 2.814 1.924.747 1.924.498 2.272.468.347-.03 1.13-.462 1.286-.91.157-.448.157-.83.108-.91-.05-.08-.182-.13-.38-.222zM12.04 22h-.005a9.85 9.85 0 0 1-5.022-1.377l-.36-.214-3.733.98 1-3.64-.235-.374A9.86 9.86 0 0 1 2.103 12C2.105 6.585 6.535 2.157 11.953 2.157c2.628 0 5.094 1.024 6.951 2.884a9.78 9.78 0 0 1 2.876 6.96c-.003 5.414-4.432 9.842-9.74 9.842zm8.297-18.087A11.815 11.815 0 0 0 11.953.157C5.43.157.143 5.446.14 11.95c0 2.096.547 4.142 1.587 5.94L0 24l6.305-1.654a11.86 11.86 0 0 0 5.685 1.451h.005c6.522 0 11.81-5.29 11.812-11.793a11.74 11.74 0 0 0-3.47-8.29z"/></svg> WhatsApp</a>
+      <a class="social-btn" href="https://www.instagram.com/monacoautomotoresok/" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+      <a class="social-btn" href="https://www.facebook.com/share/1F2aNVrcah/?mibextid=wwXIfr" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.464.099 2.795.143v3.24h-1.918c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg></a>
+    </div>
   </div>
 </div>
 
@@ -260,7 +215,14 @@
       <div class="loading">Cargando autos...</div>
     </div>
   </div>
-  <div class="footer"><span>MONACO AUTOMOTORES</span> · Salta Capital · © 2025</div>
+  <div class="footer">
+    <div><span>MONACO AUTOMOTORES</span> · Salta Capital · © 2025</div>
+    <div class="footer-social">
+      <a class="wa-btn" href="https://wa.me/5493875482700" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.149-.149.347-.371.521-.557.174-.187.231-.32.346-.534.115-.214.058-.4-.04-.534-.099-.133-.444-1.07-.61-1.43-.165-.36-.336-.31-.46-.31-.116 0-.247-.024-.379-.024-.131 0-.345.05-.527.213-.182.165-.694.677-.694 1.65 0 .974.7 1.916.798 2.046.099.13 1.351 2.066 3.275 2.814 1.924.747 1.924.498 2.272.468.347-.03 1.13-.462 1.286-.91.157-.448.157-.83.108-.91-.05-.08-.182-.13-.38-.222zM12.04 22h-.005a9.85 9.85 0 0 1-5.022-1.377l-.36-.214-3.733.98 1-3.64-.235-.374A9.86 9.86 0 0 1 2.103 12C2.105 6.585 6.535 2.157 11.953 2.157c2.628 0 5.094 1.024 6.951 2.884a9.78 9.78 0 0 1 2.876 6.96c-.003 5.414-4.432 9.842-9.74 9.842zm8.297-18.087A11.815 11.815 0 0 0 11.953.157C5.43.157.143 5.446.14 11.95c0 2.096.547 4.142 1.587 5.94L0 24l6.305-1.654a11.86 11.86 0 0 0 5.685 1.451h.005c6.522 0 11.81-5.29 11.812-11.793a11.74 11.74 0 0 0-3.47-8.29z"/></svg> WhatsApp</a>
+      <a class="social-btn" href="https://www.instagram.com/monacoautomotoresok/" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+      <a class="social-btn" href="https://www.facebook.com/share/1F2aNVrcah/?mibextid=wwXIfr" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.464.099 2.795.143v3.24h-1.918c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg></a>
+    </div>
+  </div>
 </div>
 
 <!-- CONTACTO -->
@@ -275,10 +237,10 @@
           <div class="contact-item"><span class="contact-icon">📞</span> (387) 000-0000</div>
           <div class="contact-item"><span class="contact-icon">✉️</span> info@monacoautomotores.com.ar</div>
           <div class="contact-item"><span class="contact-icon">🕐</span> Lun a Sáb · 10 a 14 / 16 a 21 hs</div>
-          <a class="wa-btn" href="https://wa.me/5493870000000" target="_blank">💬 Escribinos por WhatsApp</a>
+          <a class="wa-btn" href="https://wa.me/5493875482700" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.149-.149.347-.371.521-.557.174-.187.231-.32.346-.534.115-.214.058-.4-.04-.534-.099-.133-.444-1.07-.61-1.43-.165-.36-.336-.31-.46-.31-.116 0-.247-.024-.379-.024-.131 0-.345.05-.527.213-.182.165-.694.677-.694 1.65 0 .974.7 1.916.798 2.046.099.13 1.351 2.066 3.275 2.814 1.924.747 1.924.498 2.272.468.347-.03 1.13-.462 1.286-.91.157-.448.157-.83.108-.91-.05-.08-.182-.13-.38-.222zM12.04 22h-.005a9.85 9.85 0 0 1-5.022-1.377l-.36-.214-3.733.98 1-3.64-.235-.374A9.86 9.86 0 0 1 2.103 12C2.105 6.585 6.535 2.157 11.953 2.157c2.628 0 5.094 1.024 6.951 2.884a9.78 9.78 0 0 1 2.876 6.96c-.003 5.414-4.432 9.842-9.74 9.842zm8.297-18.087A11.815 11.815 0 0 0 11.953.157C5.43.157.143 5.446.14 11.95c0 2.096.547 4.142 1.587 5.94L0 24l6.305-1.654a11.86 11.86 0 0 0 5.685 1.451h.005c6.522 0 11.81-5.29 11.812-11.793a11.74 11.74 0 0 0-3.47-8.29z"/></svg> Escribinos por WhatsApp</a>
           <div class="social-row">
-            <a class="social-btn" href="#" target="_blank">📸</a>
-            <a class="social-btn" href="#" target="_blank">👍</a>
+            <a class="social-btn" href="https://www.instagram.com/monacoautomotoresok/" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            <a class="social-btn" href="https://www.facebook.com/share/1F2aNVrcah/?mibextid=wwXIfr" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.464.099 2.795.143v3.24h-1.918c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg></a>
           </div>
         </div>
         <div class="contact-form">
@@ -292,7 +254,14 @@
       </div>
     </div>
   </div>
-  <div class="footer"><span>MONACO AUTOMOTORES</span> · Salta Capital · © 2025</div>
+  <div class="footer">
+    <div><span>MONACO AUTOMOTORES</span> · Salta Capital · © 2025</div>
+    <div class="footer-social">
+      <a class="wa-btn" href="https://wa.me/5493875482700" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.149-.149.347-.371.521-.557.174-.187.231-.32.346-.534.115-.214.058-.4-.04-.534-.099-.133-.444-1.07-.61-1.43-.165-.36-.336-.31-.46-.31-.116 0-.247-.024-.379-.024-.131 0-.345.05-.527.213-.182.165-.694.677-.694 1.65 0 .974.7 1.916.798 2.046.099.13 1.351 2.066 3.275 2.814 1.924.747 1.924.498 2.272.468.347-.03 1.13-.462 1.286-.91.157-.448.157-.83.108-.91-.05-.08-.182-.13-.38-.222zM12.04 22h-.005a9.85 9.85 0 0 1-5.022-1.377l-.36-.214-3.733.98 1-3.64-.235-.374A9.86 9.86 0 0 1 2.103 12C2.105 6.585 6.535 2.157 11.953 2.157c2.628 0 5.094 1.024 6.951 2.884a9.78 9.78 0 0 1 2.876 6.96c-.003 5.414-4.432 9.842-9.74 9.842zm8.297-18.087A11.815 11.815 0 0 0 11.953.157C5.43.157.143 5.446.14 11.95c0 2.096.547 4.142 1.587 5.94L0 24l6.305-1.654a11.86 11.86 0 0 0 5.685 1.451h.005c6.522 0 11.81-5.29 11.812-11.793a11.74 11.74 0 0 0-3.47-8.29z"/></svg> WhatsApp</a>
+      <a class="social-btn" href="https://www.instagram.com/monacoautomotoresok/" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+      <a class="social-btn" href="https://www.facebook.com/share/1F2aNVrcah/?mibextid=wwXIfr" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.464.099 2.795.143v3.24h-1.918c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg></a>
+    </div>
+  </div>
 </div>
 
 <!-- ADMIN -->
@@ -365,7 +334,7 @@
 
   // CARRUSEL
   let slideActual = 0;
-  const totalSlides = 3;
+  const totalSlides = 2;
   window.moverCarrusel = function(dir) {
     slideActual = (slideActual + dir + totalSlides) % totalSlides;
     actualizarCarrusel();
@@ -539,7 +508,7 @@
     const msg = document.getElementById('c-msg').value.trim();
     if(!nombre || !tel) { toast('Completá nombre y teléfono'); return; }
     const texto = `Hola! Soy ${nombre}. ${auto ? 'Me interesa: ' + auto + '.' : ''} ${msg}`;
-    window.open('https://wa.me/5493870000000?text=' + encodeURIComponent(texto), '_blank');
+    window.open('https://wa.me/5493875482700?text=' + encodeURIComponent(texto), '_blank');
   }
 
   cargarAutos();
