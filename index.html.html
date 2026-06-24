@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monaco Automotores — Venta de Autos en Salta</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:#f4f6fb;color:#1a1a2e}
+  /* NAV */
+  .nav{background:#0a1f5c;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:64px;position:sticky;top:0;z-index:100}
+  .logo-text{color:#fff;font-size:18px;font-weight:600;letter-spacing:1px;display:flex;align-items:center;gap:10px;text-decoration:none}
+  .logo-icon{width:38px;height:38px;background:#e63030;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:20px}
+  .nav-links{display:flex;gap:2rem}
+  .nav-links a{color:#c8d4f0;font-size:14px;text-decoration:none;cursor:pointer;padding-bottom:2px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+  .nav-links a:hover,.nav-links a.active{color:#fff;border-bottom-color:#e63030}
+  /* PAGES */
+  .page{display:none}
+  .page.active{display:block}
+  /* HERO */
+  .hero{background:linear-gradient(135deg,#0a1f5c 0%,#1a3a8f 60%,#e63030 100%);color:#fff;padding:4rem 2rem;text-align:center}
+  .hero h1{font-size:2rem;font-weight:600;margin-bottom:.75rem}
+  .hero p{font-size:16px;color:#c8d4f0;margin-bottom:1.5rem}
+  .hero-badges{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap}
+  .badge{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:6px 16px;font-size:13px}
+  /* SECTIONS */
+  .section{padding:2rem;max-width:1100px;margin:0 auto}
+  .section-title{font-size:18px;font-weight:600;color:#0a1f5c;margin-bottom:1.25rem;display:flex;align-items:center;gap:8px}
+  .section-title::after{content:'';flex:1;height:1px;background:#dee3f0;margin-left:8px}
+  /* FILTERS */
+  .filters{background:#fff;border-radius:12px;border:1px solid #dee3f0;padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+  .filter-label{font-size:13px;color:#666;font-weight:600}
+  .filter-select{font-size:13px;border:1px solid #dee3f0;border-radius:8px;padding:7px 10px;background:#f4f6fb;color:#1a1a2e;cursor:pointer}
+  .filter-btn{background:#e63030;color:#fff;border:none;border-radius:8px;padding:7px 18px;font-size:13px;cursor:pointer;font-weight:600}
+  .filter-btn:hover{background:#c22020}
+  /* CARS GRID */
+  .cars-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.25rem}
+  .car-card{background:#fff;border-radius:12px;border:1px solid #dee3f0;overflow:hidden;transition:transform .15s,box-shadow .15s}
+  .car-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(10,31,92,0.12)}
+  .car-card.vendido{opacity:.6}
+  .car-img{height:160px;background:linear-gradient(135deg,#e8edf8,#c8d4f0);display:flex;align-items:center;justify-content:center;position:relative;font-size:56px}
+  .car-img img{width:100%;height:100%;object-fit:cover}
+  .car-tag{position:absolute;top:10px;left:10px;background:#e63030;color:#fff;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+  .car-tag.okm{background:#0a7a3a}
+  .car-tag.vendido-tag{background:#888}
+  .car-body{padding:1rem}
+  .car-name{font-size:15px;font-weight:600;margin-bottom:4px}
+  .car-price{font-size:18px;font-weight:700;color:#e63030;margin-bottom:10px}
+  .car-specs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+  .spec{background:#f0f4fc;color:#1a3a8f;font-size:11px;padding:3px 8px;border-radius:6px;font-weight:500}
+  .car-actions{display:flex;gap:6px;margin-top:8px}
+  .btn-vender{background:#0a7a3a;color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;font-weight:600}
+  .btn-eliminar{background:#e63030;color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;font-weight:600}
+  .btn-restaurar{background:#888;color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;font-weight:600}
+  /* BRANDS */
+  .brands-section{background:#0a1f5c;padding:1.5rem 2rem;margin-top:2rem}
+  .brands-title{color:#c8d4f0;font-size:12px;text-align:center;margin-bottom:1rem;letter-spacing:2px;font-weight:600}
+  .brands-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+  .brand-pill{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:6px 14px;color:#fff;font-size:13px;font-weight:500}
+  /* CONTACT */
+  .contact-card{background:#fff;border-radius:12px;border:1px solid #dee3f0;padding:2rem}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+  @media(max-width:600px){.contact-grid{grid-template-columns:1fr}}
+  .contact-info h3{font-size:18px;font-weight:600;color:#0a1f5c;margin-bottom:1rem}
+  .contact-item{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:14px;color:#555}
+  .contact-icon{font-size:18px}
+  .wa-btn{background:#25d366;color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:14px;cursor:pointer;font-weight:600;margin-top:16px;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+  .social-row{display:flex;gap:10px;margin-top:1rem}
+  .social-btn{width:40px;height:40px;border-radius:8px;background:#0a1f5c;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;cursor:pointer;text-decoration:none}
+  .contact-form h3{font-size:18px;font-weight:600;color:#0a1f5c;margin-bottom:1rem}
+  .form-group{margin-bottom:12px}
+  .form-group input,.form-group textarea,.form-group select{width:100%;border:1px solid #dee3f0;border-radius:8px;padding:9px 12px;font-size:14px;font-family:inherit;color:#1a1a2e;background:#f8f9fc}
+  .form-group input:focus,.form-group textarea:focus,.form-group select:focus{outline:none;border-color:#1a3a8f}
+  .form-group textarea{height:80px;resize:none}
+  .submit-btn{background:#e63030;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;width:100%}
+  .submit-btn:hover{background:#c22020}
+  /* ADMIN */
+  .admin-login{max-width:400px;margin:4rem auto;background:#fff;border-radius:12px;border:1px solid #dee3f0;padding:2rem;text-align:center}
+  .admin-login h2{color:#0a1f5c;margin-bottom:1rem;font-size:20px}
+  .admin-login input{width:100%;border:1px solid #dee3f0;border-radius:8px;padding:10px 12px;font-size:14px;margin-bottom:12px;font-family:inherit}
+  .admin-login input:focus{outline:none;border-color:#1a3a8f}
+  .admin-login button{background:#0a1f5c;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;width:100%}
+  .admin-panel{padding:2rem;max-width:900px;margin:0 auto}
+  .admin-panel h2{color:#0a1f5c;font-size:20px;margin-bottom:1.5rem}
+  .admin-form{background:#fff;border-radius:12px;border:1px solid #dee3f0;padding:1.5rem;margin-bottom:2rem}
+  .admin-form h3{color:#0a1f5c;font-size:16px;font-weight:600;margin-bottom:1rem}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:600px){.form-row{grid-template-columns:1fr}}
+  .add-btn{background:#0a1f5c;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+  .add-btn:hover{background:#1a3a8f}
+  .admin-list{}
+  .admin-item{background:#fff;border-radius:10px;border:1px solid #dee3f0;padding:1rem 1.25rem;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+  .admin-item.vendido-item{border-left:4px solid #888;opacity:.7}
+  .admin-item-info{flex:1}
+  .admin-item-name{font-weight:600;font-size:15px;color:#0a1f5c}
+  .admin-item-sub{font-size:13px;color:#888;margin-top:2px}
+  .admin-item-btns{display:flex;gap:6px;flex-shrink:0}
+  /* FOOTER */
+  .footer{background:#060f2e;color:#8899cc;padding:1.5rem 2rem;text-align:center;font-size:13px;margin-top:2rem}
+  .footer span{color:#c8d4f0;font-weight:600}
+  /* TOAST */
+  .toast{position:fixed;bottom:24px;right:24px;background:#0a1f5c;color:#fff;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:500;opacity:0;transition:opacity .3s;z-index:9999;pointer-events:none}
+  .toast.show{opacity:1}
+  /* EMPTY */
+  .empty{text-align:center;padding:4rem 2rem;color:#888}
+  .empty-icon{font-size:48px;margin-bottom:1rem}
+  .loading{text-align:center;padding:4rem;color:#888;font-size:15px}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="logo-text" onclick="showPage('inicio')">
+    <div class="logo-icon">🏎️</div>
+    MONACO AUTOMOTORES
+  </a>
+  <div class="nav-links">
+    <a onclick="showPage('inicio')" id="nav-inicio" class="active">Inicio</a>
+    <a onclick="showPage('catalogo')" id="nav-catalogo">Catálogo</a>
+    <a onclick="showPage('contacto')" id="nav-contacto">Contacto</a>
+    <a onclick="showPage('admin')" id="nav-admin" style="color:#ffcc44">Admin</a>
+  </div>
+</nav>
+
+<!-- INICIO -->
+<div id="page-inicio" class="page active">
+  <div class="hero">
+    <h1>Compras · Ventas · Permutas · Financiación</h1>
+    <p>Tu concesionaria de confianza en Salta — autos 0 km y usados seleccionados</p>
+    <div class="hero-badges">
+      <span class="badge">✔ Precio justo garantizado</span>
+      <span class="badge">🛡 Autos verificados</span>
+      <span class="badge">🔄 Recibimos tu usado</span>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Destacados de la semana</div>
+    <div id="destacados-grid" class="cars-grid">
+      <div class="loading">Cargando autos...</div>
+    </div>
+    <div style="text-align:center;margin-top:1.5rem">
+      <button class="filter-btn" style="padding:10px 28px;font-size:14px" onclick="showPage('catalogo')">Ver todo el catálogo →</button>
+    </div>
+  </div>
+  <div class="brands-section">
+    <div class="brands-title">MARCAS QUE TRABAJAMOS</div>
+    <div class="brands-row">
+      <span class="brand-pill">Toyota</span><span class="brand-pill">Ford</span>
+      <span class="brand-pill">Chevrolet</span><span class="brand-pill">Volkswagen</span>
+      <span class="brand-pill">Fiat</span><span class="brand-pill">Renault</span>
+      <span class="brand-pill">Nissan</span><span class="brand-pill">Honda</span>
+      <span class="brand-pill">Peugeot</span>
+    </div>
+  </div>
+  <div class="footer"><span>MONACO AUTOMOTORES</span> · Salta Capital · © 2025</div>
+</div>
+
+<!-- CATALOGO -->
+<div id="page-catalogo" class="page">
+  <div class="section">
+    <div class="section-title">Catálogo completo</div>
+    <div class="filters">
+      <span class="filter-label">Filtrar:</span>
+      <select class="filter-select" id="f-condicion">
+        <option value="">Todos</option>
+        <option value="0km">0 km</option>
+        <option value="usado">Usado</option>
+      </select>
+      <select class="filter-select" id="f-combustible">
+        <option value="">Combustible</option>
+        <option value="Nafta">Nafta</option>
+        <option value="Diesel">Diesel</option>
+        <option value="Nafta - GNC">Nafta - GNC</option>
+        <option value="Eléctrico">Eléctrico</option>
+      </select>
+      <button class="filter-btn" onclick="filtrarAutos()">Buscar</button>
+    </div>
+    <div id="catalogo-grid" class="cars-grid">
+      <div class="loading">Cargando autos...</div>
+    </div>
+  </div>
+  <div class="footer"><span>MONACO AUTOMOTORES</span> · Salta Capital · © 2025</div>
+</div>
+
+<!-- CONTACTO -->
+<div id="page-contacto" class="page">
+  <div class="section">
+    <div class="section-title">Contacto</div>
+    <div class="contact-card">
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3>Monaco Automotores</h3>
+          <div class="contact-item"><span class="contact-icon">📍</span> Salta Capital, Argentina</div>
+          <div class="contact-item"><span class="contact-icon">📞</span> (387) 000-0000</div>
+          <div class="contact-item"><span class="contact-icon">✉️</span> info@monacoautomotores.com.ar</div>
+          <div class="contact-item"><span class="contact-icon">🕐</span> Lun a Sáb · 10 a 14 / 16 a 21 hs</div>
+          <a class="wa-btn" href="https://wa.me/5493870000000" target="_blank">💬 Escribinos por WhatsApp</a>
+          <div class="social-row">
+            <a class="social-btn" href="#" target="_blank">📸</a>
+            <a class="social-btn" href="#" target="_blank">👍</a>
+          </div>
+        </div>
+        <div class="contact-form">
+          <h3>Consultanos</h3>
+          <div class="form-group"><input type="text" id="c-nombre" placeholder="Tu nombre"></div>
+          <div class="form-group"><input type="tel" id="c-tel" placeholder="Tu teléfono"></div>
+          <div class="form-group"><input type="text" id="c-auto" placeholder="¿Qué auto te interesa?"></div>
+          <div class="form-group"><textarea id="c-msg" placeholder="Tu consulta..."></textarea></div>
+          <button class="submit-btn" onclick="enviarConsulta()">Enviar consulta</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>MONACO AUTOMOTORES</span> · Salta Capital · © 2025</div>
+</div>
+
+<!-- ADMIN -->
+<div id="page-admin" class="page">
+  <div id="admin-login" class="admin-login">
+    <h2>🔐 Panel Admin</h2>
+    <p style="color:#888;font-size:13px;margin-bottom:1rem">Monaco Automotores</p>
+    <input type="password" id="pass-input" placeholder="Contraseña" onkeydown="if(event.key==='Enter')checkPass()">
+    <button onclick="checkPass()">Ingresar</button>
+    <p id="pass-error" style="color:#e63030;font-size:13px;margin-top:10px;display:none">Contraseña incorrecta</p>
+  </div>
+  <div id="admin-panel" class="admin-panel" style="display:none">
+    <h2>Panel de administración</h2>
+    <div class="admin-form">
+      <h3>➕ Agregar auto</h3>
+      <div class="form-row">
+        <div class="form-group"><input type="text" id="a-marca" placeholder="Marca (ej: Toyota)"></div>
+        <div class="form-group"><input type="text" id="a-modelo" placeholder="Modelo (ej: Corolla 2.0 XLI)"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><input type="number" id="a-anio" placeholder="Año (ej: 2024)"></div>
+        <div class="form-group"><input type="text" id="a-km" placeholder="Kilómetros (ej: 45.000)"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><input type="text" id="a-precio" placeholder="Precio (ej: 13.000.000)"></div>
+        <div class="form-group">
+          <select id="a-combustible">
+            <option value="">Combustible</option>
+            <option>Nafta</option><option>Diesel</option>
+            <option>Nafta - GNC</option><option>Eléctrico</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <select id="a-condicion">
+            <option value="usado">Usado</option>
+            <option value="0km">0 km</option>
+          </select>
+        </div>
+        <div class="form-group"><input type="text" id="a-etiqueta" placeholder='Etiqueta (ej: IMPERDIBLE)'></div>
+      </div>
+      <div class="form-group"><input type="text" id="a-foto" placeholder="URL de la foto (opcional)"></div>
+      <button class="add-btn" onclick="agregarAuto()">Agregar auto</button>
+    </div>
+    <div class="section-title" style="margin-bottom:1rem">Autos cargados</div>
+    <div id="admin-list"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- FIREBASE -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD6x4voHZqwb-guS_PA3jH7gapqmDbXABM",
+    authDomain: "monaco-automotores.firebaseapp.com",
+    projectId: "monaco-automotores",
+    storageBucket: "monaco-automotores.firebasestorage.app",
+    messagingSenderId: "702269442140",
+    appId: "1:702269442140:web:1ad523236f4f13e775fe99"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const ADMIN_PASS = "monaco2025";
+  let todosLosAutos = [];
+
+  // NAVEGACION
+  window.showPage = function(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    document.getElementById('nav-' + page).classList.add('active');
+    if(page === 'inicio' || page === 'catalogo') cargarAutos();
+    if(page === 'admin' && document.getElementById('admin-panel').style.display === 'flex') cargarListaAdmin();
+  }
+
+  // TOAST
+  window.toast = function(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  // ADMIN LOGIN
+  window.checkPass = function() {
+    const pass = document.getElementById('pass-input').value;
+    if(pass === ADMIN_PASS) {
+      document.getElementById('admin-login').style.display = 'none';
+      document.getElementById('admin-panel').style.display = 'block';
+      cargarListaAdmin();
+    } else {
+      document.getElementById('pass-error').style.display = 'block';
+    }
+  }
+
+  // CARGAR AUTOS
+  async function cargarAutos() {
+    try {
+      const q = query(collection(db, "autos"), orderBy("fecha", "desc"));
+      const snap = await getDocs(q);
+      todosLosAutos = [];
+      snap.forEach(d => todosLosAutos.push({id: d.id, ...d.data()}));
+      renderCatalogo(todosLosAutos);
+      renderDestacados(todosLosAutos);
+    } catch(e) {
+      console.error(e);
+    }
+  }
+
+  function cardHTML(auto, adminMode) {
+    const esVendido = auto.vendido;
+    const tag = esVendido ? 'VENDIDO' : (auto.etiqueta || (auto.condicion === '0km' ? '0 KM' : ''));
+    const tagClass = esVendido ? 'vendido-tag' : (auto.condicion === '0km' ? 'okm' : '');
+    const imgContent = auto.foto
+      ? `<img src="${auto.foto}" alt="${auto.marca} ${auto.modelo}" onerror="this.parentElement.innerHTML='🚗'">`
+      : '🚗';
+    const adminBtns = adminMode ? `
+      <div class="car-actions">
+        ${!esVendido
+          ? `<button class="btn-vender" onclick="marcarVendido('${auto.id}',true)">Marcar vendido</button>`
+          : `<button class="btn-restaurar" onclick="marcarVendido('${auto.id}',false)">Disponible</button>`}
+        <button class="btn-eliminar" onclick="eliminarAuto('${auto.id}')">Eliminar</button>
+      </div>` : '';
+    return `
+      <div class="car-card ${esVendido ? 'vendido' : ''}">
+        <div class="car-img">
+          ${imgContent}
+          ${tag ? `<span class="car-tag ${tagClass}">${tag}</span>` : ''}
+        </div>
+        <div class="car-body">
+          <div class="car-name">${auto.marca} ${auto.modelo}</div>
+          <div class="car-price">$${auto.precio}</div>
+          <div class="car-specs">
+            <span class="spec">📅 ${auto.anio}</span>
+            <span class="spec">🛣 ${auto.km} km</span>
+            <span class="spec">${auto.combustible}</span>
+          </div>
+          ${adminBtns}
+        </div>
+      </div>`;
+  }
+
+  function renderDestacados(autos) {
+    const disponibles = autos.filter(a => !a.vendido).slice(0, 3);
+    const grid = document.getElementById('destacados-grid');
+    if(!grid) return;
+    if(disponibles.length === 0) {
+      grid.innerHTML = '<div class="empty"><div class="empty-icon">🚗</div><p>Próximamente nuevos vehículos</p></div>';
+      return;
+    }
+    grid.innerHTML = disponibles.map(a => cardHTML(a, false)).join('');
+  }
+
+  function renderCatalogo(autos) {
+    const grid = document.getElementById('catalogo-grid');
+    if(!grid) return;
+    const disponibles = autos.filter(a => !a.vendido);
+    if(disponibles.length === 0) {
+      grid.innerHTML = '<div class="empty"><div class="empty-icon">🚗</div><p>No hay vehículos disponibles en este momento</p></div>';
+      return;
+    }
+    grid.innerHTML = disponibles.map(a => cardHTML(a, false)).join('');
+  }
+
+  window.filtrarAutos = function() {
+    const condicion = document.getElementById('f-condicion').value;
+    const combustible = document.getElementById('f-combustible').value;
+    let filtrados = todosLosAutos.filter(a => !a.vendido);
+    if(condicion) filtrados = filtrados.filter(a => a.condicion === condicion);
+    if(combustible) filtrados = filtrados.filter(a => a.combustible === combustible);
+    renderCatalogo(filtrados);
+  }
+
+  // ADMIN FUNCIONES
+  window.agregarAuto = async function() {
+    const marca = document.getElementById('a-marca').value.trim();
+    const modelo = document.getElementById('a-modelo').value.trim();
+    const anio = document.getElementById('a-anio').value.trim();
+    const km = document.getElementById('a-km').value.trim();
+    const precio = document.getElementById('a-precio').value.trim();
+    const combustible = document.getElementById('a-combustible').value;
+    const condicion = document.getElementById('a-condicion').value;
+    const etiqueta = document.getElementById('a-etiqueta').value.trim().toUpperCase();
+    const foto = document.getElementById('a-foto').value.trim();
+    if(!marca || !modelo || !anio || !precio) { toast('Completá marca, modelo, año y precio'); return; }
+    try {
+      await addDoc(collection(db, "autos"), { marca, modelo, anio, km, precio, combustible, condicion, etiqueta, foto, vendido: false, fecha: Date.now() });
+      toast('✅ Auto agregado correctamente');
+      ['a-marca','a-modelo','a-anio','a-km','a-precio','a-etiqueta','a-foto'].forEach(id => document.getElementById(id).value = '');
+      cargarListaAdmin();
+    } catch(e) { toast('Error al agregar'); console.error(e); }
+  }
+
+  window.marcarVendido = async function(id, vendido) {
+    try {
+      await updateDoc(doc(db, "autos", id), { vendido });
+      toast(vendido ? '🏷 Marcado como vendido' : '✅ Marcado como disponible');
+      cargarListaAdmin();
+    } catch(e) { toast('Error'); console.error(e); }
+  }
+
+  window.eliminarAuto = async function(id) {
+    if(!confirm('¿Eliminar este auto?')) return;
+    try {
+      await deleteDoc(doc(db, "autos", id));
+      toast('🗑 Auto eliminado');
+      cargarListaAdmin();
+    } catch(e) { toast('Error'); console.error(e); }
+  }
+
+  async function cargarListaAdmin() {
+    const lista = document.getElementById('admin-list');
+    lista.innerHTML = '<div class="loading">Cargando...</div>';
+    try {
+      const q = query(collection(db, "autos"), orderBy("fecha", "desc"));
+      const snap = await getDocs(q);
+      let autos = [];
+      snap.forEach(d => autos.push({id: d.id, ...d.data()}));
+      if(autos.length === 0) {
+        lista.innerHTML = '<div class="empty"><p>No hay autos cargados aún</p></div>';
+        return;
+      }
+      lista.innerHTML = autos.map(a => `
+        <div class="admin-item ${a.vendido ? 'vendido-item' : ''}">
+          <div class="admin-item-info">
+            <div class="admin-item-name">${a.marca} ${a.modelo} ${a.anio}</div>
+            <div class="admin-item-sub">$${a.precio} · ${a.km} km · ${a.combustible} ${a.vendido ? '· <strong>VENDIDO</strong>' : ''}</div>
+          </div>
+          <div class="admin-item-btns">
+            ${!a.vendido
+              ? `<button class="btn-vender" onclick="marcarVendido('${a.id}',true)">Vendido</button>`
+              : `<button class="btn-restaurar" onclick="marcarVendido('${a.id}',false)">Disponible</button>`}
+            <button class="btn-eliminar" onclick="eliminarAuto('${a.id}')">Eliminar</button>
+          </div>
+        </div>`).join('');
+    } catch(e) { lista.innerHTML = '<div class="empty"><p>Error al cargar</p></div>'; }
+  }
+
+  // CONTACTO
+  window.enviarConsulta = function() {
+    const nombre = document.getElementById('c-nombre').value.trim();
+    const tel = document.getElementById('c-tel').value.trim();
+    const auto = document.getElementById('c-auto').value.trim();
+    const msg = document.getElementById('c-msg').value.trim();
+    if(!nombre || !tel) { toast('Completá nombre y teléfono'); return; }
+    const texto = `Hola! Soy ${nombre}. ${auto ? 'Me interesa: ' + auto + '.' : ''} ${msg}`;
+    window.open('https://wa.me/5493870000000?text=' + encodeURIComponent(texto), '_blank');
+  }
+
+  // CARGAR AL INICIO
+  cargarAutos();
+</script>
+</body>
+</html>
