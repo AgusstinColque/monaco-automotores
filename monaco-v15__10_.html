@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monaco Automotores — Venta de Autos en Salta</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',Arial,sans-serif;background:#f4f6fb;color:#1a1a2e}
+  /* NAV BLANCO */
+  .nav{background:#fff;border-bottom:2px solid #dee3f0;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:72px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.07)}
+  .logo-text{display:flex;align-items:center;gap:12px;text-decoration:none;cursor:pointer}
+  .logo-icon{height:48px;display:flex;align-items:center}
+  .logo-icon img{height:48px;width:auto;max-width:220px;object-fit:contain}
+  .logo-nombre{display:flex;flex-direction:column;line-height:1.2}
+  .logo-nombre span:first-child{font-size:17px;font-weight:700;letter-spacing:2px;color:#0a1f5c}
+  .logo-nombre span:last-child{font-size:11px;font-weight:400;color:#888;letter-spacing:1px}
+  .nav-links{display:flex;gap:2rem}
+  .nav-links a{color:#555;font-size:14px;text-decoration:none;cursor:pointer;padding-bottom:2px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;font-weight:500}
+  .nav-links a:hover,.nav-links a.active{color:#0a1f5c;border-bottom-color:#e63030}
+  /* BUSCADOR NAV */
+  .nav-search{flex:1;max-width:420px;margin:0 2.5rem;position:relative}
+  .nav-search-inner{display:flex;align-items:center;background:#f4f6fb;border:1.5px solid #e2e6f0;border-radius:8px;overflow:hidden;transition:border-color .2s,box-shadow .2s,background .2s}
+  .nav-search-inner:focus-within{border-color:#0a1f5c;box-shadow:0 0 0 3px rgba(10,31,92,0.07);background:#fff}
+  .nav-search-icon{display:flex;align-items:center;padding:0 10px 0 13px;color:#9aa3b8;flex-shrink:0}
+  .nav-search-icon svg{display:block}
+  .nav-search input{flex:1;border:none;background:transparent;padding:9px 4px;font-size:13.5px;font-family:'Inter',sans-serif;color:#1a1a2e;outline:none;min-width:0}
+  .nav-search input::placeholder{color:#b0b8cc;font-weight:400}
+  .nav-search-clear{background:none;border:none;color:#b0b8cc;cursor:pointer;padding:0 12px;font-size:15px;display:none;line-height:1;transition:color .15s;flex-shrink:0}
+  .nav-search-clear:hover{color:#555}
+  .nav-search-clear.visible{display:flex;align-items:center}
+  /* DROPDOWN */
+  .nav-search-dropdown{position:absolute;top:calc(100% + 8px);left:0;right:0;background:#fff;border:1px solid #e2e6f0;border-radius:10px;box-shadow:0 12px 32px rgba(10,31,92,0.13);z-index:200;overflow:hidden;display:none;animation:dropdownIn .15s ease}
+  .nav-search-dropdown.open{display:block}
+  @keyframes dropdownIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+  .search-dropdown-header{padding:9px 14px 7px;font-size:10.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#9aa3b8;border-bottom:1px solid #f0f2f8}
+  .search-result-item{display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;border-bottom:1px solid #f7f8fb;transition:background .12s}
+  .search-result-item:last-child{border-bottom:none}
+  .search-result-item:hover{background:#f4f6fb}
+  .search-result-item:hover .search-result-name{color:#0a1f5c}
+  .search-result-thumb{width:56px;height:40px;object-fit:cover;border-radius:6px;background:#eef1f8;flex-shrink:0;border:1px solid #e8ecf4}
+  .search-result-thumb-placeholder{width:56px;height:40px;border-radius:6px;background:#eef1f8;border:1px solid #e8ecf4;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+  .search-result-info{flex:1;min-width:0}
+  .search-result-name{font-size:13.5px;font-weight:600;color:#1a1a2e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .12s;margin-bottom:2px}
+  .search-result-sub{display:flex;align-items:center;gap:8px}
+  .search-result-price{font-size:12.5px;color:#e63030;font-weight:700}
+  .search-result-km{font-size:11.5px;color:#9aa3b8;font-weight:500}
+  .search-result-arrow{color:#c8cedc;font-size:13px;flex-shrink:0;margin-left:auto}
+  .search-no-result{padding:20px 14px;text-align:center;color:#9aa3b8;font-size:13px}
+  .search-footer-link{padding:10px 14px;border-top:1px solid #f0f2f8;text-align:center;font-size:12.5px;color:#0a1f5c;font-weight:600;cursor:pointer;transition:background .12s;display:block}
+  .search-footer-link:hover{background:#f4f6fb}
+  @media(max-width:768px){.nav-search{max-width:none;margin:0 1rem;flex:1}}
+  /* PAGES */
+  .page{display:none}
+  .page.active{display:block}
+  /* CARRUSEL */
+  .carousel{position:relative;width:100%;height:auto;overflow:hidden;background:#0a1f5c}
+  .carousel-track{display:flex;transition:transform .5s ease}
+  .carousel-slide{min-width:100%;position:relative;overflow:hidden;line-height:0}
+  .carousel-slide img{width:100%;height:auto;display:block}
+  @media(max-width:768px){.carousel-slide img{height:auto}}
+  /* FLECHAS */
+  .carousel-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.4);color:#fff;width:44px;height:44px;border-radius:50%;font-size:20px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;transition:background .2s}
+  .carousel-btn:hover{background:rgba(255,255,255,0.35)}
+  .carousel-btn.prev{left:1.5rem}
+  .carousel-btn.next{right:1.5rem}
+  /* DOTS */
+  .carousel-dots{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10}
+  .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.4);cursor:pointer;transition:background .2s,transform .2s}
+  .dot.active{background:#fff;transform:scale(1.2)}
+  /* SECTIONS */
+  .section{padding:2rem;max-width:1100px;margin:0 auto}
+  .section-title{font-size:18px;font-weight:600;color:#0a1f5c;margin-bottom:1.25rem;display:flex;align-items:center;gap:8px}
+  .section-title::after{content:'';flex:1;height:1px;background:#dee3f0;margin-left:8px}
+  /* FILTERS */
+  .filters{background:#fff;border-radius:12px;border:1px solid #dee3f0;padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+  .filter-label{font-size:13px;color:#666;font-weight:600}
+  .filter-select{font-size:13px;border:1px solid #dee3f0;border-radius:8px;padding:7px 10px;background:#f4f6fb;color:#1a1a2e;cursor:pointer}
+  .filter-btn{background:#e63030;color:#fff;border:none;border-radius:8px;padding:7px 18px;font-size:13px;cursor:pointer;font-weight:600}
+  .filter-btn:hover{background:#c22020}
+  .btn-catalogo{background:#0d1b2e!important}
+  .btn-catalogo:hover{background:#1a2f4d!important}
+  /* CARS GRID */
+  .cars-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.25rem}
+  .car-card{background:#fff;border-radius:12px;border:1px solid #dee3f0;overflow:hidden;transition:transform .15s,box-shadow .15s}
+  .car-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(10,31,92,0.12)}
+  .car-card.vendido{opacity:.6}
+  .car-img{height:160px;background:linear-gradient(135deg,#e8edf8,#c8d4f0);display:flex;align-items:center;justify-content:center;position:relative;font-size:56px}
+  .car-img img{width:100%;height:100%;object-fit:cover}
+  .car-tag{position:absolute;top:10px;left:10px;background:#e63030;color:#fff;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+  .car-tag.okm{background:#0a7a3a}
+  .car-tag.vendido-tag{background:#888}
+  .car-body{padding:1rem}
+  .car-name{font-size:15px;font-weight:600;margin-bottom:4px}
+  .car-price{font-size:18px;font-weight:700;color:#e63030;margin-bottom:10px}
+  .car-specs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+  .spec{background:#f0f4fc;color:#1a3a8f;font-size:11px;padding:3px 8px;border-radius:6px;font-weight:500}
+  .car-actions{display:flex;gap:6px;margin-top:8px}
+  .btn-vender{background:#0a7a3a;color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;font-weight:600}
+  .btn-eliminar{background:#e63030;color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;font-weight:600}
+  .btn-restaurar{background:#888;color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;font-weight:600}
+  /* BRANDS */
+  .brands-section{background:#fff;padding:2.25rem 0;margin-top:2rem;overflow:hidden;border-top:1px solid #e3e6ee;border-bottom:1px solid #e3e6ee}
+  .brands-title{color:#0d1b2e;font-size:17px;text-align:center;margin-bottom:1.6rem;letter-spacing:1.5px;font-weight:800;text-transform:uppercase;position:relative;padding-bottom:14px}
+  .brands-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:48px;height:3px;background:#e63030;border-radius:2px}
+  .brands-marquee{width:100%;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+  .brands-track{display:flex;align-items:center;gap:3.5rem;width:max-content;animation:brandsScroll 28s linear infinite}
+  .brands-track:hover{animation-play-state:paused}
+  .brand-logo{height:80px;width:190px;flex-shrink:0;display:flex;align-items:center;justify-content:center;opacity:.85;transition:opacity .2s,transform .2s}
+  .brand-logo:hover{opacity:1;transform:translateY(-2px)}
+  .brand-logo img{max-height:72px;max-width:170px;width:auto;height:auto;object-fit:contain}
+  @keyframes brandsScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  /* ADMIN */
+  .admin-login{max-width:400px;margin:4rem auto;background:#fff;border-radius:12px;border:1px solid #dee3f0;padding:2rem;text-align:center}
+  .admin-login h2{color:#0a1f5c;margin-bottom:1rem;font-size:20px}
+  .admin-login input{width:100%;border:1px solid #dee3f0;border-radius:8px;padding:10px 12px;font-size:14px;margin-bottom:12px;font-family:inherit}
+  .admin-login input:focus{outline:none;border-color:#1a3a8f}
+  .admin-login button{background:#0a1f5c;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;width:100%}
+  .admin-panel{padding:2rem;max-width:900px;margin:0 auto}
+  .admin-panel h2{color:#0a1f5c;font-size:20px;margin-bottom:1.5rem}
+  .admin-form{background:#fff;border-radius:12px;border:1px solid #dee3f0;padding:1.5rem;margin-bottom:2rem}
+  .admin-form h3{color:#0a1f5c;font-size:16px;font-weight:600;margin-bottom:1rem}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:600px){.form-row{grid-template-columns:1fr}}
+  .add-btn{background:#0a1f5c;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+  .add-btn:hover{background:#1a3a8f}
+  .admin-item{background:#fff;border-radius:10px;border:1px solid #dee3f0;padding:1rem 1.25rem;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+  .admin-item.vendido-item{border-left:4px solid #888;opacity:.7}
+  .admin-item-info{flex:1}
+  .admin-item-name{font-weight:600;font-size:15px;color:#0a1f5c}
+  .admin-item-sub{font-size:13px;color:#888;margin-top:2px}
+  .admin-item-btns{display:flex;gap:6px;flex-shrink:0}
+  /* MODAL EDICION */
+  .edit-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:20000;align-items:center;justify-content:center;padding:20px}
+  .edit-modal.open{display:flex}
+  .edit-modal-content{background:#fff;border-radius:14px;width:100%;max-width:580px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+  .edit-modal-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid #e8ecf4}
+  .edit-modal-header h3{color:#0a1f5c;font-size:17px;font-weight:700;margin:0}
+  .edit-modal-close{background:none;border:none;font-size:20px;color:#888;cursor:pointer;line-height:1;padding:4px 8px;border-radius:6px;transition:background .15s}
+  .edit-modal-close:hover{background:#f4f6fb;color:#333}
+  .edit-modal-body{padding:1.5rem}
+  .edit-modal-body .form-row{margin-bottom:12px}
+  .edit-modal-body input,.edit-modal-body select,.edit-modal-body textarea{width:100%;border:1px solid #dee3f0;border-radius:8px;padding:9px 12px;font-size:14px;font-family:'Inter',sans-serif;color:#1a1a2e;background:#f9fafb;transition:border-color .2s}
+  .edit-modal-body input:focus,.edit-modal-body select:focus,.edit-modal-body textarea:focus{outline:none;border-color:#0a1f5c;background:#fff}
+  .edit-modal-body textarea{resize:vertical;min-height:90px}
+  .edit-modal-body label{display:block;font-size:12px;font-weight:600;color:#666;margin-bottom:5px;letter-spacing:.3px;text-transform:uppercase}
+  .edit-modal-footer{padding:1rem 1.5rem;border-top:1px solid #e8ecf4;display:flex;gap:10px;justify-content:flex-end}
+  .btn-guardar{background:#0a1f5c;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s}
+  .btn-guardar:hover{background:#1a3a8f}
+  .btn-cancelar{background:#f4f6fb;color:#555;border:1px solid #dee3f0;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s}
+  .btn-cancelar:hover{background:#e8ecf4}
+  .btn-editar{background:#0a1f5c;color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;font-weight:600}
+  @media(max-width:600px){.edit-modal{padding:0;align-items:flex-end}.edit-modal-content{border-radius:16px 16px 0 0;max-height:92vh}}
+  /* FOOTER */
+  .footer{background:#fff;border-top:1px solid #e3e6ee;padding:3rem 2rem 1.75rem;margin-top:2.5rem;color:#5a6275;font-size:13.5px}
+  .footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:2.5rem}
+  @media(max-width:768px){.footer-inner{grid-template-columns:1fr;gap:2rem;text-align:center}}
+  .footer-brand{display:flex;flex-direction:column;gap:14px}
+  .footer-logo-img{height:54px;width:auto;max-width:200px;object-fit:contain;align-self:flex-start}
+  @media(max-width:768px){.footer-logo-img{align-self:center}}
+  .footer-brand .footer-logo-name{font-size:19px;font-weight:800;letter-spacing:2px;color:#0d1b2e}
+  .footer-brand .footer-logo-sub{font-size:11px;font-weight:500;color:#9aa1b2;letter-spacing:1px;margin-top:-10px}
+  .footer-brand p{font-size:13.5px;line-height:1.6;color:#6b7280;max-width:280px}
+  @media(max-width:768px){.footer-brand p{max-width:none;margin:0 auto}}
+  .footer-brand strong{color:#0d1b2e}
+  .footer-social-row{display:flex;align-items:center;gap:10px;margin-top:4px}
+  @media(max-width:768px){.footer-social-row{justify-content:center}}
+  .footer-social-row .social-btn{width:36px;height:36px;font-size:16px;background:#0d1b2e}
+  .footer-social-row .social-btn:hover{background:#1a2f4d}
+  .footer-col h4{font-size:12.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#0d1b2e;margin-bottom:16px}
+  .footer-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;font-size:13.5px;color:#5a6275;line-height:1.5}
+  @media(max-width:768px){.footer-row{justify-content:center}}
+  .footer-row .ficon{width:34px;height:34px;flex-shrink:0;border-radius:8px;background:#f4f6fb;display:flex;align-items:center;justify-content:center;font-size:15px;color:#0d1b2e}
+  .footer-row a{color:#5a6275;text-decoration:none}
+  .footer-row a:hover{color:#0d1b2e}
+  .footer-bottom{max-width:1100px;margin:2.25rem auto 0;padding-top:1.25rem;border-top:1px solid #eceff5;text-align:center;font-size:12.5px;color:#9aa1b2}
+  /* PREVIEW FOTOS */
+  .foto-preview{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;min-height:0}
+  .foto-preview-item{position:relative;width:90px;height:68px;border-radius:8px;overflow:hidden;border:2px solid #e2e6f0;background:#eef1f8;flex-shrink:0}
+  .foto-preview-item img{width:100%;height:100%;object-fit:cover;display:block}
+  .foto-preview-item .foto-ok{position:absolute;bottom:3px;right:3px;background:#16a34a;color:#fff;border-radius:50%;width:16px;height:16px;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:700}
+  .foto-preview-item .foto-error{position:absolute;bottom:3px;right:3px;background:#e63030;color:#fff;border-radius:50%;width:16px;height:16px;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:700}
+  .foto-preview-item .foto-num{position:absolute;top:3px;left:3px;background:rgba(0,0,0,.45);color:#fff;border-radius:4px;font-size:9px;padding:1px 5px;font-weight:600}
+  .foto-preview-empty{color:#b0b8cc;font-size:12.5px;font-style:italic;padding:4px 0}
+  /* NOTA DE PRECIO */
+  .car-nota{
+    margin-top:10px;
+    padding-top:10px;
+    border-top:1px solid #eceff5;
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:.6px;
+    text-transform:uppercase;
+    color:#6b7280;
+    line-height:1.4;
+  }
+  /* TOAST */
+  .toast{position:fixed;bottom:24px;right:24px;background:#0a1f5c;color:#fff;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:500;opacity:0;transition:opacity .3s;z-index:9999;pointer-events:none}
+  .toast.show{opacity:1}
+  .empty{text-align:center;padding:4rem 2rem;color:#888}
+  .empty-icon{font-size:48px;margin-bottom:1rem}
+  .loading{text-align:center;padding:4rem;color:#888;font-size:15px}
+  .wa-btn{background:#25d366;color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:14px;cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+  .social-btn{width:40px;height:40px;border-radius:8px;background:#0a1f5c;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;cursor:pointer;text-decoration:none}
+
+/* MODAL VEHICULO */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:10000;align-items:center;justify-content:center;padding:20px}
+.modal-content{background:#fff;border-radius:12px;max-width:900px;width:100%;overflow:hidden}
+.modal-img{width:100%;height:450px;object-fit:cover}
+.modal-body{padding:20px}
+.modal-nav{display:flex;justify-content:space-between;padding:10px}
+
+
+.modal-counter{font-weight:bold;padding:8px 15px}
+.modal-thumbs{display:flex;gap:8px;overflow:auto;padding:10px}
+.modal-thumbs img{width:70px;height:50px;object-fit:cover;cursor:pointer;border-radius:6px}
+.vehicle-details{margin:12px 0;line-height:1.8}
+.big-wa{display:inline-block;font-size:16px;padding:12px 20px}
+
+
+/* Mejora visual navbar */
+.navbar,
+nav{
+    min-height: 90px !important;
+}
+
+.navbar-brand img,
+.logo img,
+nav img{
+    max-height: 75px !important;
+    height: 75px !important;
+    width: auto !important;
+}
+
+.navbar-nav .nav-link,
+nav a{
+    font-size: 1.1rem !important;
+}
+
+
+/* ===== REDISEÑO SERIO/PROFESIONAL: CATÁLOGO Y FICHA DE VEHÍCULO ===== */
+
+/* ---- TARJETAS DE CATÁLOGO / DESTACADOS ---- */
+.car-card{
+  font-family:'Inter',sans-serif;
+  border-radius:10px;
+  border:1px solid #e3e6ee;
+  box-shadow:0 1px 3px rgba(16,24,53,.06);
+  transition:box-shadow .2s ease,transform .2s ease;
+}
+.car-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 28px rgba(16,24,53,.12);
+}
+.car-img{height:190px;background:#eef1f8;}
+.car-tag{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.3px;
+  text-transform:uppercase;
+  padding:5px 12px;
+  border-radius:4px;
+  background:#1a1a2e;
+  box-shadow:0 2px 6px rgba(0,0,0,.18);
+}
+.car-tag.okm{background:#0a7a3a;}
+.car-tag.vendido-tag{background:#6b7280;}
+.car-body{padding:16px 18px 18px;}
+.car-price{
+  font-size:22px;
+  font-weight:800;
+  color:#111827;
+  letter-spacing:-.3px;
+  margin-bottom:6px;
+}
+.car-name{
+  font-size:14.5px;
+  font-weight:600;
+  color:#1f2430;
+  margin-bottom:8px;
+  text-transform:none;
+}
+.car-specs{
+  display:flex;
+  align-items:center;
+  gap:0;
+  flex-wrap:wrap;
+  margin-bottom:0;
+}
+.car-specs .spec{
+  background:none;
+  color:#6b7280;
+  font-size:12.5px;
+  font-weight:500;
+  padding:0;
+  border-radius:0;
+  position:relative;
+  padding-right:10px;
+  margin-right:10px;
+}
+.car-specs .spec:not(:last-child)::after{
+  content:'|';
+  position:absolute;
+  right:-2px;
+  color:#d1d5db;
+}
+
+/* ---- MODAL DE FICHA DE VEHÍCULO ---- */
+.modal-content{
+  max-width:1080px;
+  max-height:90vh;
+  overflow-y:auto;
+  border-radius:14px;
+  font-family:'Inter',sans-serif;
+}
+.modal-body{
+  display:grid;
+  grid-template-columns:1.7fr 1fr;
+  gap:0;
+  padding:0;
+}
+.modal-img-col{background:#000;}
+.modal-img{height:480px;background:#111;}
+.modal-nav{
+  position:static;
+  background:#fff;
+  border-bottom:1px solid #eceff5;
+  padding:10px 16px;
+  justify-content:flex-end;
+  gap:6px;
+}
+.modal-nav button{
+  background:#f3f4f7;
+  border:none;
+  width:32px;
+  height:32px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:14px;
+  color:#374151;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:background .15s;
+}
+.modal-nav button:hover{background:#e5e7eb;}
+.modal-counter{
+  font-weight:600;
+  font-size:13px;
+  color:#6b7280;
+  padding:0;
+  margin-right:auto;
+}
+.modal-thumbs{
+  background:#fafbfc;
+  border-top:1px solid #eceff5;
+  padding:12px 14px;
+  gap:8px;
+}
+.modal-thumbs img{
+  width:78px;
+  height:56px;
+  border-radius:6px;
+  border:2px solid transparent;
+  opacity:.7;
+  transition:opacity .15s,border-color .15s;
+}
+.modal-thumbs img:hover{opacity:1;border-color:#cfd5e6;}
+
+.vehicle-details{
+  padding:32px 30px;
+  border:none;
+  box-shadow:none;
+  border-radius:0;
+  line-height:1.4;
+  display:flex;
+  flex-direction:column;
+}
+.vehicle-eyebrow{
+  font-size:11.5px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  color:#9aa1b2;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+#modalTitulo{
+  font-size:23px;
+  font-weight:700;
+  text-transform:none;
+  letter-spacing:-.2px;
+  color:#0d1b2e;
+  margin-bottom:18px;
+}
+.premium-price-box{
+  background:#f7f8fb;
+  border:1px solid #eceff5;
+  border-radius:10px;
+  padding:16px 18px;
+  margin-bottom:22px;
+}
+.premium-price{
+  font-size:12px;
+  font-weight:700;
+  color:#9aa1b2;
+  text-transform:uppercase;
+  letter-spacing:.6px;
+  margin:0 0 4px;
+}
+.premium-price-value{
+  font-size:30px;
+  font-weight:800;
+  color:#0d1b2e;
+  letter-spacing:-.5px;
+}
+.premium-grid{
+  display:block;
+  gap:0;
+  margin-bottom:4px;
+}
+.premium-item{
+  background:none;
+  border:none;
+  border-bottom:1px solid #eceff5;
+  border-radius:0;
+  padding:13px 0;
+  flex-direction:row;
+  align-items:baseline;
+  justify-content:space-between;
+  display:flex;
+}
+.premium-item:last-child{border-bottom:none;}
+.premium-item strong{
+  color:#8a90a3;
+  font-size:12px;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.3px;
+}
+.premium-item span{
+  font-size:15px;
+  font-weight:700;
+  color:#1f2430;
+}
+.big-wa,#modalWhatsApp{
+  display:block;
+  width:100%;
+  text-align:center;
+  background:#16a34a;
+  color:#fff;
+  border-radius:8px;
+  padding:15px;
+  font-size:15px;
+  font-weight:700;
+  letter-spacing:.2px;
+  text-decoration:none;
+  margin-top:auto;
+  transition:background .15s;
+}
+.big-wa:hover,#modalWhatsApp:hover{background:#128a3e;}
+
+.modal-img-col{display:flex;flex-direction:column;}
+.modal-img-col .modal-img{flex:1;min-height:0;}
+
+@media(max-width:760px){
+  .modal-body{grid-template-columns:1fr;}
+  .modal-img{height:300px;}
+  .vehicle-details{padding:20px;}
+  #modalTitulo{font-size:18px;}
+}
+
+/* ============================================
+   MOBILE RESPONSIVE — COMPLETO
+   ============================================ */
+
+/* NAV MOBILE */
+@media(max-width:768px){
+  .nav{
+    padding:0 1rem;
+    height:60px;
+    gap:10px;
+  }
+  .logo-icon img{height:38px}
+
+  /* Hamburger */
+  .nav-hamburger{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:5px;
+    width:36px;
+    height:36px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:4px;
+    flex-shrink:0;
+    border-radius:6px;
+    transition:background .15s;
+  }
+  .nav-hamburger:hover{background:#f4f6fb}
+  .nav-hamburger span{display:block;height:2px;background:#0a1f5c;border-radius:2px;transition:transform .25s,opacity .25s}
+  .nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav-hamburger.open span:nth-child(2){opacity:0}
+  .nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+  /* Links collapse */
+  .nav-links{
+    display:none;
+    position:fixed;
+    top:60px;
+    left:0;right:0;
+    background:#fff;
+    border-bottom:2px solid #dee3f0;
+    flex-direction:column;
+    gap:0;
+    padding:0;
+    z-index:99;
+    box-shadow:0 8px 24px rgba(10,31,92,0.1);
+  }
+  .nav-links.open{display:flex}
+  .nav-links a{
+    padding:15px 1.25rem;
+    font-size:15px;
+    border-bottom:1px solid #f0f2f8;
+    border-left:none;
+  }
+  .nav-links a:last-child{border-bottom:none}
+  .nav-links a.active{border-bottom:1px solid #f0f2f8;border-left:3px solid #e63030;color:#0a1f5c}
+
+  /* Buscador: se expande en fila */
+  .nav-search{
+    flex:1;
+    margin:0;
+    max-width:none;
+  }
+  .nav-search-inner{border-radius:7px}
+  .nav-search input{font-size:14px;padding:8px 4px}
+  .nav-search-dropdown{
+    position:fixed;
+    top:60px;
+    left:0;right:0;
+    border-radius:0;
+    border-left:none;border-right:none;border-top:none;
+    box-shadow:0 8px 24px rgba(10,31,92,0.15);
+    max-height:60vh;
+    overflow-y:auto;
+  }
+
+  /* SECTION */
+  .section{padding:1.25rem 1rem}
+  .section-title{font-size:16px}
+
+  /* GRID: 2 columnas en mobile */
+  .cars-grid{grid-template-columns:repeat(2,1fr);gap:0.75rem}
+  .car-img{height:130px}
+  .car-body{padding:0.75rem}
+  .car-name{font-size:13px}
+  .car-price{font-size:16px;margin-bottom:6px}
+  .car-specs .spec{font-size:11px}
+
+  /* FILTERS */
+  .filters{gap:0.6rem;padding:0.85rem 1rem}
+  .filter-select{font-size:12px;padding:6px 8px;flex:1}
+  .filter-btn{padding:6px 14px;font-size:12px}
+
+  /* BRANDS */
+  .brands-section{padding:1.5rem 0}
+  .brand-logo{height:60px;width:130px}
+  .brand-logo img{max-height:52px;max-width:110px}
+
+  /* FOOTER */
+  .footer{padding:2rem 1rem 1.5rem;margin-top:1.5rem}
+  .footer-inner{gap:1.5rem}
+
+  /* ADMIN */
+  .admin-panel{padding:1rem}
+  .admin-item{flex-wrap:wrap}
+  .admin-item-btns{width:100%;justify-content:flex-end}
+}
+
+/* Pantallas muy chicas (iPhone SE, etc.) */
+@media(max-width:380px){
+  .cars-grid{grid-template-columns:1fr}
+  .car-img{height:170px}
+}
+
+/* MODAL MOBILE — pantalla completa */
+@media(max-width:768px){
+  .modal{padding:0;align-items:flex-end}
+  .modal-content{
+    border-radius:16px 16px 0 0;
+    max-height:93vh;
+    width:100%;
+    overflow-y:auto;
+  }
+  .modal-body{
+    grid-template-columns:1fr;
+  }
+  .modal-img{height:240px}
+  .modal-img-col{border-radius:0}
+  .vehicle-details{padding:20px 18px 28px}
+  #modalTitulo{font-size:19px}
+  .premium-price-value{font-size:24px}
+  .modal-nav{
+    padding:8px 12px;
+    position:sticky;
+    top:0;
+    z-index:10;
+    background:#fff;
+  }
+  .modal-thumbs{padding:10px 12px;gap:6px}
+  .modal-thumbs img{width:62px;height:44px}
+}
+
+/* Hamburger oculto en desktop */
+.nav-hamburger{display:none}
+
+
+/* === MOBILE REDESIGN PACK === */
+.mobile-search-wrap,.mobile-chips{display:none;}
+.floating-wa{
+ position:fixed;right:20px;bottom:20px;width:60px;height:60px;
+ border-radius:50%;background:#fff;display:flex;
+ align-items:center;justify-content:center;
+ text-decoration:none;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.2);
+ color:#25D366;
+}
+@media(max-width:768px){
+ .nav-search{display:none!important;}
+ .mobile-search-wrap{display:block;padding:18px;background:#fff;}
+ .mobile-search{
+   height:52px;background:#f4f6fb;border-radius:30px;
+   display:flex;align-items:center;padding:0 18px;color:#888;font-size:15px;
+ }
+ .mobile-chips{display:flex;gap:10px;padding:0 18px 18px;background:#fff;}
+ .chip{
+   flex:1;height:42px;border:1px solid #e4e7ef;background:white;
+   border-radius:10px;font-size:13px;font-weight:600;
+ }
+ .cars-grid{grid-template-columns:1fr!important;}
+ .car-img{height:220px!important;}
+ .car-price{font-size:24px!important;}
+ .car-name{font-size:16px!important;}
+ .carousel{height:auto;}
+ .carousel-slide img{height:auto;object-fit:contain;width:100%;}
+}
+
+
+/* === BUSCADOR MOBILE REAL === */
+.mobile-search-real{
+  display:flex;align-items:center;background:#f4f6fb;
+  border:1.5px solid #e2e6f0;border-radius:30px;overflow:hidden;
+  transition:border-color .2s,box-shadow .2s,background .2s;
+  height:52px;padding:0 6px 0 16px;
+}
+.mobile-search-real:focus-within{
+  border-color:#0a1f5c;box-shadow:0 0 0 3px rgba(10,31,92,0.07);background:#fff;
+}
+.mobile-search-icon{color:#9aa3b8;display:flex;align-items:center;margin-right:10px;flex-shrink:0}
+.mobile-search-real input{
+  flex:1;border:none;background:transparent;font-size:15px;
+  font-family:'Inter',sans-serif;color:#1a1a2e;outline:none;min-width:0;
+}
+.mobile-search-real input::placeholder{color:#b0b8cc;font-weight:400}
+.mobile-search-clear{
+  background:none;border:none;color:#b0b8cc;cursor:pointer;
+  padding:0 10px;font-size:15px;display:none;line-height:1;
+  transition:color .15s;flex-shrink:0;align-items:center;
+}
+.mobile-search-clear:hover{color:#555}
+.mobile-search-clear.visible{display:flex;align-items:center}
+.mobile-search-dropdown{
+  position:relative;background:#fff;border:1px solid #e2e6f0;
+  border-radius:16px;box-shadow:0 8px 24px rgba(10,31,92,0.13);
+  margin-top:10px;overflow:hidden;display:none;animation:dropdownIn .15s ease;
+}
+.mobile-search-dropdown.open{display:block}
+.chip.active{background:#0a1f5c;color:#fff;border-color:#0a1f5c}
+
+/* === MONACO V14 MOBILE FIRST === */
+@media(max-width:768px){
+  .nav{min-height:64px!important;padding:0 14px!important;}
+  .logo img,.logo-icon img{max-height:34px!important;}
+
+  .mobile-search{box-shadow:0 2px 10px rgba(0,0,0,.06);}
+  .chip{border-radius:999px!important;}
+
+  .cars-grid{gap:18px!important;padding:0 14px!important;}
+  .car-card{
+    border-radius:16px!important;
+    overflow:hidden!important;
+    box-shadow:0 4px 16px rgba(0,0,0,.09)!important;
+    display:flex!important;
+    flex-direction:row!important;
+    height:160px!important;
+  }
+  .car-img{
+    width:170px!important;
+    min-width:170px!important;
+    height:160px!important;
+    border-radius:0!important;
+    flex-shrink:0!important;
+  }
+  .car-body{
+    flex:1!important;
+    padding:12px 14px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    justify-content:center!important;
+    overflow:hidden!important;
+  }
+  .car-price{font-size:20px!important;font-weight:800!important;margin-bottom:4px!important;}
+  .car-name{font-size:13px!important;line-height:1.3!important;margin-bottom:6px!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;}
+  .car-specs{gap:4px!important;margin-bottom:0!important;}
+  .spec{font-size:10px!important;padding:2px 6px!important;}
+  .car-nota{font-size:10px!important;margin-top:6px!important;padding-top:6px!important;}
+
+  .car-info,.car-details{padding:14px!important;}
+
+  .modal-content{
+    width:100%!important;
+    max-width:100%!important;
+    height:100vh!important;
+    border-radius:18px 18px 0 0!important;
+  }
+}
+
+
+@media(max-width:768px){
+  .nav{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+  }
+  .nav-hamburger{
+    display:flex !important;
+    flex-direction:column !important;
+    width:36px !important;
+    height:36px !important;
+    margin-left:auto !important;
+    order:999 !important;
+  }
+  .nav-hamburger span{
+    width:24px !important;
+    height:3px !important;
+    background:#0a1f5c !important;
+    flex:0 0 3px !important;
+  }
+  .nav-links{display:none;}
+  .nav-links.open{display:flex !important;}
+}
+
+</style>
+
+</head>
+<body>
+
+<nav class="nav">
+  <a class="logo-text" onclick="showPage('inicio')">
+    <div class="logo-icon"><img src="https://i.imgur.com/LkafD09.png" alt="Monaco Automotores"></div>
+  </a>
+  <div class="nav-search" id="nav-search-wrap">
+    <div class="nav-search-inner">
+      <span class="nav-search-icon">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="6"/><line x1="15" y1="15" x2="19" y2="19"/></svg>
+      </span>
+      <input type="text" id="nav-search-input" placeholder="Buscar por marca o modelo..." autocomplete="off" oninput="buscarEnNav(this.value)" onfocus="mostrarDropdown()" onblur="ocultarDropdownDelay()">
+      <button class="nav-search-clear" id="nav-search-clear" onclick="limpiarBusqueda()">
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/></svg>
+      </button>
+    </div>
+    <div class="nav-search-dropdown" id="nav-search-dropdown"></div>
+  </div>
+  <div class="nav-links" id="nav-links">
+    <a onclick="showPage('inicio');cerrarMenu()" id="nav-inicio" class="active">Inicio</a>
+    <a onclick="showPage('catalogo');cerrarMenu()" id="nav-catalogo">Catálogo</a>
+    <a onclick="showPage('contacto');cerrarMenu()" id="nav-contacto">Contacto</a>
+    <a onclick="showPage('admin');cerrarMenu()" id="nav-admin" style="display:none">Admin</a>
+  </div>
+  <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMenu()" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- INICIO -->
+<div id="page-inicio" class="page active">
+
+  <!-- CARRUSEL -->
+  <div class="carousel">
+    <div class="carousel-track" id="carousel-track">
+      <!-- Slide 1 -->
+      <div class="carousel-slide slide-1">
+        <img src="https://i.imgur.com/OlDzWZK.png" alt="Monaco Automotores - Promoción 1">
+      </div>
+      <!-- Slide 2 -->
+      <div class="carousel-slide slide-2">
+        <img src="https://i.imgur.com/EJt9IlR.png" alt="Monaco Automotores - Promoción 2">
+      </div>
+    </div>
+    <button class="carousel-btn prev" onclick="moverCarrusel(-1)">&#8249;</button>
+    <button class="carousel-btn next" onclick="moverCarrusel(1)">&#8250;</button>
+    <div class="carousel-dots">
+      <div class="dot active" onclick="irASlide(0)"></div>
+      <div class="dot" onclick="irASlide(1)"></div>
+    </div>
+  </div>
+
+<div class="mobile-search-wrap">
+  <div class="mobile-search-real" id="mobile-search-wrap-inner">
+    <span class="mobile-search-icon">
+      <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="6"/><line x1="15" y1="15" x2="19" y2="19"/></svg>
+    </span>
+    <input
+      type="text"
+      id="mobile-search-input"
+      placeholder="Buscar por marca o modelo..."
+      autocomplete="off"
+      oninput="buscarEnNavMobile(this.value)"
+      onfocus="mostrarDropdownMobile()"
+      onblur="ocultarDropdownMobile()"
+    >
+    <button class="mobile-search-clear" id="mobile-search-clear" onclick="limpiarBusquedaMobile()">
+      <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/></svg>
+    </button>
+  </div>
+  <div class="mobile-search-dropdown" id="mobile-search-dropdown"></div>
+</div>
+<div class="mobile-chips">
+  <button class="chip" onclick="filtrarChip('')">Todos</button>
+  <button class="chip" onclick="filtrarChip('0km')">0 KM</button>
+  <button class="chip" onclick="filtrarChip('usado')">Usados</button>
+</div>
+
+  <div class="section">
+    <div class="section-title">Destacados de la semana</div>
+    <div id="destacados-grid" class="cars-grid">
+      <div class="loading">Cargando autos...</div>
+    </div>
+    <div style="text-align:center;margin-top:1.5rem">
+      <button class="filter-btn btn-catalogo" style="padding:10px 28px;font-size:14px" onclick="showPage('catalogo')">Ver todo el catálogo →</button>
+    </div>
+  </div>
+
+  <div class="brands-section">
+    <div class="brands-title">MARCAS QUE TRABAJAMOS</div>
+    <div class="brands-marquee">
+      <div class="brands-track" id="brands-track">
+        <div class="brand-logo"><img src="https://i.imgur.com/dDP7by9.png" alt="Toyota"></div>
+        <div class="brand-logo"><img src="https://i.imgur.com/RjNbsHH.png" alt="Ford"></div>
+        <div class="brand-logo"><img src="https://i.imgur.com/BeOm9Oz.png" alt="Chevrolet"></div>
+        <div class="brand-logo"><img src="https://i.imgur.com/L9BoO6n.png" alt="Volkswagen"></div>
+        <div class="brand-logo"><img src="https://i.imgur.com/pT1ZAI0.png" alt="Fiat"></div>
+        <div class="brand-logo"><img src="https://i.imgur.com/cGjuvA4.png" alt="Renault"></div>
+        <div class="brand-logo"><img src="https://i.imgur.com/GvEdr0A.png" alt="Nissan"></div>
+        <div class="brand-logo"><img src="https://i.imgur.com/zc15soT.png" alt="Honda"></div>
+        <div class="brand-logo"><img src="https://i.imgur.com/dDP7by9.png" alt="Toyota"></div>
+        <div class="brand-logo"><img src="https://i.imgur.com/RjNbsHH.png" alt="Ford"></div>
+        <div class="brand-logo"><img src="https://i.imgur.com/BeOm9Oz.png" alt="Chevrolet"></div>
+        <div class="brand-logo"><img src="https://i.imgur.com/L9BoO6n.png" alt="Volkswagen"></div>
+        <div class="brand-logo"><img src="https://i.imgur.com/pT1ZAI0.png" alt="Fiat"></div>
+        <div class="brand-logo"><img src="https://i.imgur.com/cGjuvA4.png" alt="Renault"></div>
+        <div class="brand-logo"><img src="https://i.imgur.com/GvEdr0A.png" alt="Nissan"></div>
+        <div class="brand-logo"><img src="https://i.imgur.com/zc15soT.png" alt="Honda"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img class="footer-logo-img" src="https://i.imgur.com/sK4mvG9.png" alt="Monaco Automotores">
+        <p>Más de <strong>10 años</strong> conectando salteños con su próximo auto. Confianza y transparencia en cada operación.</p>
+        <div class="footer-social-row">
+          <a class="social-btn" href="https://wa.me/5493875482700" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.149-.149.347-.371.521-.557.174-.187.231-.32.346-.534.115-.214.058-.4-.04-.534-.099-.133-.444-1.07-.61-1.43-.165-.36-.336-.31-.46-.31-.116 0-.247-.024-.379-.024-.131 0-.345.05-.527.213-.182.165-.694.677-.694 1.65 0 .974.7 1.916.798 2.046.099.13 1.351 2.066 3.275 2.814 1.924.747 1.924.498 2.272.468.347-.03 1.13-.462 1.286-.91.157-.448.157-.83.108-.91-.05-.08-.182-.13-.38-.222zM12.04 22h-.005a9.85 9.85 0 0 1-5.022-1.377l-.36-.214-3.733.98 1-3.64-.235-.374A9.86 9.86 0 0 1 2.103 12C2.105 6.585 6.535 2.157 11.953 2.157c2.628 0 5.094 1.024 6.951 2.884a9.78 9.78 0 0 1 2.876 6.96c-.003 5.414-4.432 9.842-9.74 9.842zm8.297-18.087A11.815 11.815 0 0 0 11.953.157C5.43.157.143 5.446.14 11.95c0 2.096.547 4.142 1.587 5.94L0 24l6.305-1.654a11.86 11.86 0 0 0 5.685 1.451h.005c6.522 0 11.81-5.29 11.812-11.793a11.74 11.74 0 0 0-3.47-8.29z"/></svg></a>
+          <a class="social-btn" href="https://www.instagram.com/monacoautomotoresok/" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+          <a class="social-btn" href="https://www.facebook.com/share/1F2aNVrcah/?mibextid=wwXIfr" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.464.099 2.795.143v3.24h-1.918c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <div class="footer-row"><span class="ficon">✉️</span><a href="mailto:concesionariomonaco@gmail.com">concesionariomonaco@gmail.com</a></div>
+        <div class="footer-row"><span class="ficon">📞</span><a href="https://wa.me/5493875482700" target="_blank">¡Llamanos! (387) 548-2700</a></div>
+      </div>
+      <div class="footer-col">
+        <h4>Datos útiles</h4>
+        <div class="footer-row"><span class="ficon">📍</span><span>Junín 31, Salta Capital</span></div>
+        <div class="footer-row"><span class="ficon">🕐</span><span>Lunes a viernes: 9 a 13 hs. y 17 a 21 hs.<br>Sábados: 10 a 13 hs.</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">MONACO AUTOMOTORES · Salta Capital · © 2026</div>
+  </div>
+</div>
+
+<!-- INICIO_FOOTER_END -->
+<!-- CATALOGO_FOOTER -->
+<div id="page-catalogo" class="page">
+  <div class="section">
+    <div class="section-title">Catálogo completo</div>
+
+    <div id="catalogo-grid" class="cars-grid">
+      <div class="loading">Cargando autos...</div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img class="footer-logo-img" src="https://i.imgur.com/sK4mvG9.png" alt="Monaco Automotores">
+        <p>Más de <strong>10 años</strong> conectando salteños con su próximo auto. Confianza y transparencia en cada operación.</p>
+        <div class="footer-social-row">
+          <a class="social-btn" href="https://wa.me/5493875482700" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.149-.149.347-.371.521-.557.174-.187.231-.32.346-.534.115-.214.058-.4-.04-.534-.099-.133-.444-1.07-.61-1.43-.165-.36-.336-.31-.46-.31-.116 0-.247-.024-.379-.024-.131 0-.345.05-.527.213-.182.165-.694.677-.694 1.65 0 .974.7 1.916.798 2.046.099.13 1.351 2.066 3.275 2.814 1.924.747 1.924.498 2.272.468.347-.03 1.13-.462 1.286-.91.157-.448.157-.83.108-.91-.05-.08-.182-.13-.38-.222zM12.04 22h-.005a9.85 9.85 0 0 1-5.022-1.377l-.36-.214-3.733.98 1-3.64-.235-.374A9.86 9.86 0 0 1 2.103 12C2.105 6.585 6.535 2.157 11.953 2.157c2.628 0 5.094 1.024 6.951 2.884a9.78 9.78 0 0 1 2.876 6.96c-.003 5.414-4.432 9.842-9.74 9.842zm8.297-18.087A11.815 11.815 0 0 0 11.953.157C5.43.157.143 5.446.14 11.95c0 2.096.547 4.142 1.587 5.94L0 24l6.305-1.654a11.86 11.86 0 0 0 5.685 1.451h.005c6.522 0 11.81-5.29 11.812-11.793a11.74 11.74 0 0 0-3.47-8.29z"/></svg></a>
+          <a class="social-btn" href="https://www.instagram.com/monacoautomotoresok/" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+          <a class="social-btn" href="https://www.facebook.com/share/1F2aNVrcah/?mibextid=wwXIfr" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.464.099 2.795.143v3.24h-1.918c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <div class="footer-row"><span class="ficon">✉️</span><a href="mailto:concesionariomonaco@gmail.com">concesionariomonaco@gmail.com</a></div>
+        <div class="footer-row"><span class="ficon">📞</span><a href="https://wa.me/5493875482700" target="_blank">¡Llamanos! (387) 548-2700</a></div>
+      </div>
+      <div class="footer-col">
+        <h4>Datos útiles</h4>
+        <div class="footer-row"><span class="ficon">📍</span><span>Junín 31, Salta Capital</span></div>
+        <div class="footer-row"><span class="ficon">🕐</span><span>Lunes a viernes: 9 a 13 hs. y 17 a 21 hs.<br>Sábados: 10 a 13 hs.</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">MONACO AUTOMOTORES · Salta Capital · © 2026</div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="page-admin" class="page">
+  <div id="admin-login" class="admin-login">
+    <h2>🔐 Panel Admin</h2>
+    <p style="color:#888;font-size:13px;margin-bottom:1rem">Monaco Automotores</p>
+    <input type="email" id="email-input" placeholder="Correo electrónico"><br><br>
+    <input type="password" id="pass-input" placeholder="Contraseña" onkeydown="if(event.key==='Enter')checkPass()">
+    <button onclick="checkPass()">Ingresar</button>
+    <p id="pass-error" style="color:#e63030;font-size:13px;margin-top:10px;display:none">Contraseña incorrecta</p>
+  </div>
+  <div id="admin-panel" class="admin-panel" style="display:none">
+    <h2>Panel de administración</h2><button class="btn-restaurar" onclick="cerrarSesion()">Cerrar sesión</button>
+    <div class="admin-form">
+      <h3>➕ Agregar auto</h3>
+      <div class="form-row">
+        <div class="form-group"><input type="text" id="a-marca" placeholder="Marca (ej: Toyota)"></div>
+        <div class="form-group"><input type="text" id="a-modelo" placeholder="Modelo (ej: Corolla 2.0 XLI)"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><input type="number" id="a-anio" placeholder="Año (ej: 2024)"></div>
+        <div class="form-group"><input type="text" id="a-km" placeholder="Kilómetros (ej: 45.000)"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><input type="text" id="a-precio" placeholder="Precio (ej: 13.000.000)"></div>
+        <div class="form-group">
+          <select id="a-combustible">
+            <option value="">Combustible</option>
+            <option>Nafta</option><option>Diesel</option>
+            <option>Nafta - GNC</option><option>Eléctrico</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <select id="a-condicion">
+            <option value="usado">Usado</option>
+            <option value="0km">0 km</option>
+          </select>
+        </div>
+        <div class="form-group"><input type="text" id="a-etiqueta" placeholder='Etiqueta (ej: IMPERDIBLE)'></div>
+      </div>
+      <div class="form-group"><input type="text" id="a-nota" placeholder='Nota de precio (ej: Financiación disponible · Permuta)' style="width:100%;border:1px solid #dee3f0;border-radius:8px;padding:10px 12px;font-size:14px;font-family:inherit"></div>
+      <div class="form-group">
+        <textarea id="a-fotos" placeholder="Pegá una URL por línea (Imgur u otro servicio)" oninput="previewFotos('a-fotos','a-fotos-preview')"></textarea>
+        <div class="foto-preview" id="a-fotos-preview"></div>
+      </div>
+      <button class="add-btn" onclick="agregarAuto()">Agregar auto</button>
+    </div>
+    <div class="section-title" style="margin-bottom:1rem">Autos cargados</div>
+    <div id="admin-list"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD6x4voHZqwb-guS_PA3jH7gapqmDbXABM",
+    authDomain: "monaco-automotores.firebaseapp.com",
+    projectId: "monaco-automotores",
+    storageBucket: "monaco-automotores.firebasestorage.app",
+    messagingSenderId: "702269442140",
+    appId: "1:702269442140:web:1ad523236f4f13e775fe99"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+  window.todosLosAutos = [];
+
+  // CARRUSEL
+  let slideActual = 0;
+  const totalSlides = 2;
+  window.moverCarrusel = function(dir) {
+    slideActual = (slideActual + dir + totalSlides) % totalSlides;
+    actualizarCarrusel();
+  }
+  window.irASlide = function(n) {
+    slideActual = n;
+    actualizarCarrusel();
+  }
+  function actualizarCarrusel() {
+    document.getElementById('carousel-track').style.transform = `translateX(-${slideActual * 100}%)`;
+    document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i === slideActual));
+  }
+  setInterval(() => { slideActual = (slideActual + 1) % totalSlides; actualizarCarrusel(); }, 5000);
+
+  // NAVEGACION
+  window.showPage = function(page) {
+    if(page === 'contacto') {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      document.getElementById('page-inicio').classList.add('active');
+      document.getElementById('nav-contacto').classList.add('active');
+      setTimeout(() => {
+        document.querySelector('#page-inicio .footer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+      return;
+    }
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    document.getElementById('nav-' + page).classList.add('active');
+    window.scrollTo({ top: 0 });
+  }
+
+  window.toast = function(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  window.checkPass = async function() {
+    const email = document.getElementById('email-input').value;
+    const password = document.getElementById('pass-input').value;
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      document.getElementById('admin-login').style.display = 'none';
+      document.getElementById('admin-panel').style.display = 'block';
+      cargarListaAdmin();
+    } catch {
+      document.getElementById('pass-error').style.display = 'block';
+    }
+  }
+
+  async function cargarAutos() {
+    try {
+      const q = query(collection(db, "autos"), orderBy("fecha", "desc"));
+      const snap = await getDocs(q);
+      todosLosAutos = [];
+      snap.forEach(d => todosLosAutos.push({id: d.id, ...d.data()}));
+      renderDestacados(todosLosAutos);
+      renderCatalogo(todosLosAutos);
+    } catch(e) { console.error(e); }
+  }
+
+  function cardHTML(auto, adminMode) {
+    const esVendido = auto.vendido;
+    const tag = esVendido ? 'VENDIDO' : (auto.etiqueta || (auto.condicion === '0km' ? '0 KM' : ''));
+    const tagClass = esVendido ? 'vendido-tag' : (auto.condicion === '0km' ? 'okm' : '');
+    const fotoPrincipal = auto.fotos && auto.fotos.length ? auto.fotos[0] : auto.foto;
+    const imgContent = fotoPrincipal ? `<img src="${fotoPrincipal}" alt="${auto.marca} ${auto.modelo}" onerror="this.parentElement.innerHTML='🚗'">` : '🚗';
+    const adminBtns = adminMode ? `<div class="car-actions">
+      ${!esVendido
+        ? `<button class="btn-vender" onclick="event.stopPropagation();marcarVendido('${auto.id}',true)">Marcar vendido</button>`
+        : `<button class="btn-restaurar" onclick="event.stopPropagation();marcarVendido('${auto.id}',false)">Disponible</button>`}
+      <button class="btn-eliminar" onclick="event.stopPropagation();eliminarAuto('${auto.id}')">Eliminar</button>
+    </div>` : '';
+    return `<div class="car-card ${esVendido ? 'vendido' : ''}" onclick='abrirModalPorId("${auto.id}")'>
+      <div class="car-img">${imgContent}${tag ? `<span class="car-tag ${tagClass}">${tag}</span>` : ''}</div>
+      <div class="car-body">
+        <div class="car-name">${auto.marca} ${auto.modelo}</div>
+        <div class="car-price">$${auto.precio}</div>
+        <div class="car-specs">
+          <span class="spec">📅 ${auto.anio}</span>
+          <span class="spec">🛣 ${auto.km} km</span>
+          <span class="spec">${auto.combustible}</span>
+        </div>
+        ${auto.nota ? `<div class="car-nota">${auto.nota}</div>` : ''}
+        ${adminBtns}
+      </div>
+    </div>`;
+  }
+
+  function renderDestacados(autos) {
+    const grid = document.getElementById('destacados-grid');
+    if(!grid) return;
+    const disponibles = autos.filter(a => !a.vendido).slice(0, 3);
+    grid.innerHTML = disponibles.length === 0
+      ? '<div class="empty"><div class="empty-icon">🚗</div><p>Próximamente nuevos vehículos</p></div>'
+      : disponibles.map(a => cardHTML(a, false)).join('');
+  }
+
+  function renderCatalogo(autos) {
+    const grid = document.getElementById('catalogo-grid');
+    if(!grid) return;
+    const disponibles = autos.filter(a => !a.vendido);
+    grid.innerHTML = disponibles.length === 0
+      ? '<div class="empty"><div class="empty-icon">🚗</div><p>No hay vehículos disponibles en este momento</p></div>'
+      : disponibles.map(a => cardHTML(a, false)).join('');
+  }
+
+  window.filtrarAutos = function() {
+    const condicion = document.getElementById('f-condicion').value;
+    const combustible = document.getElementById('f-combustible').value;
+    let filtrados = todosLosAutos.filter(a => !a.vendido);
+    if(condicion) filtrados = filtrados.filter(a => a.condicion === condicion);
+    if(combustible) filtrados = filtrados.filter(a => a.combustible === combustible);
+    renderCatalogo(filtrados);
+  }
+
+  window.agregarAuto = async function() {
+    const marca = document.getElementById('a-marca').value.trim();
+    const modelo = document.getElementById('a-modelo').value.trim();
+    const anio = document.getElementById('a-anio').value.trim();
+    const km = document.getElementById('a-km').value.trim();
+    const precio = document.getElementById('a-precio').value.trim();
+    const combustible = document.getElementById('a-combustible').value;
+    const condicion = document.getElementById('a-condicion').value;
+    const etiqueta = document.getElementById('a-etiqueta').value.trim().toUpperCase();
+    const nota = document.getElementById('a-nota').value.trim();
+    const fotos = document.getElementById('a-fotos').value
+      .split('\n')
+      .map(f => f.trim())
+      .filter(f => f);
+    if(!marca || !modelo || !anio || !precio) { toast('Completá marca, modelo, año y precio'); return; }
+    try {
+      await addDoc(collection(db, "autos"), { marca, modelo, anio, km, precio, combustible, condicion, etiqueta, nota, fotos, vendido: false, fecha: Date.now() });
+      toast('✅ Auto agregado correctamente');
+      ['a-marca','a-modelo','a-anio','a-km','a-precio','a-etiqueta','a-nota','a-fotos'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('a-fotos-preview').innerHTML = '';
+      cargarListaAdmin();
+    } catch(e) { toast('Error al agregar'); console.error(e); }
+  }
+
+  window.marcarVendido = async function(id, vendido) {
+    try {
+      await updateDoc(doc(db, "autos", id), { vendido });
+      toast(vendido ? '🏷 Marcado como vendido' : '✅ Marcado como disponible');
+      cargarListaAdmin();
+    } catch(e) { toast('Error'); console.error(e); }
+  }
+
+  window.eliminarAuto = async function(id) {
+    if(!confirm('¿Eliminar este auto?')) return;
+    try {
+      await deleteDoc(doc(db, "autos", id));
+      toast('🗑 Auto eliminado');
+      cargarListaAdmin();
+    } catch(e) { toast('Error'); console.error(e); }
+  }
+
+  async function cargarListaAdmin() {
+    const lista = document.getElementById('admin-list');
+    lista.innerHTML = '<div class="loading">Cargando...</div>';
+    try {
+      const q = query(collection(db, "autos"), orderBy("fecha", "desc"));
+      const snap = await getDocs(q);
+      let autos = [];
+      snap.forEach(d => autos.push({id: d.id, ...d.data()}));
+      if(autos.length === 0) { lista.innerHTML = '<div class="empty"><p>No hay autos cargados aún</p></div>'; return; }
+      lista.innerHTML = autos.map(a => `
+        <div class="admin-item ${a.vendido ? 'vendido-item' : ''}">
+          <div class="admin-item-info">
+            <div class="admin-item-name">${a.marca} ${a.modelo} ${a.anio}</div>
+            <div class="admin-item-sub">$${a.precio} · ${a.km} km · ${a.combustible} ${a.vendido ? '· <strong>VENDIDO</strong>' : ''}</div>
+          </div>
+          <div class="admin-item-btns">
+            <button class="btn-editar" onclick="abrirEdicion(${JSON.stringify(a).replace(/"/g,'&quot;')})">Editar</button>
+            ${!a.vendido
+              ? `<button class="btn-vender" onclick="marcarVendido('${a.id}',true)">Vendido</button>`
+              : `<button class="btn-restaurar" onclick="marcarVendido('${a.id}',false)">Disponible</button>`}
+            <button class="btn-eliminar" onclick="eliminarAuto('${a.id}')">Eliminar</button>
+          </div>
+        </div>`).join('');
+    } catch(e) { lista.innerHTML = '<div class="empty"><p>Error al cargar</p></div>'; }
+  }
+
+  
+  window.cerrarSesion = async function(){
+  await signOut(auth);
+  document.getElementById('nav-admin').style.display='none';
+  showPage('inicio');
+  location.reload();
+}
+
+  window.abrirEdicion = function(auto) {
+    document.getElementById('e-id').value = auto.id;
+    document.getElementById('e-marca').value = auto.marca || '';
+    document.getElementById('e-modelo').value = auto.modelo || '';
+    document.getElementById('e-anio').value = auto.anio || '';
+    document.getElementById('e-km').value = auto.km || '';
+    document.getElementById('e-precio').value = auto.precio || '';
+    document.getElementById('e-combustible').value = auto.combustible || '';
+    document.getElementById('e-condicion').value = auto.condicion || 'usado';
+    document.getElementById('e-etiqueta').value = auto.etiqueta || '';
+    document.getElementById('e-nota').value = auto.nota || '';
+    document.getElementById('e-fotos').value = (auto.fotos || []).join('\n');
+    document.getElementById('edit-modal').classList.add('open');
+    previewFotos('e-fotos', 'e-fotos-preview');
+  }
+
+  window.cerrarEdicion = function() {
+    document.getElementById('edit-modal').classList.remove('open');
+  }
+
+  window.guardarEdicion = async function() {
+    const id = document.getElementById('e-id').value;
+    const datos = {
+      marca: document.getElementById('e-marca').value.trim(),
+      modelo: document.getElementById('e-modelo').value.trim(),
+      anio: document.getElementById('e-anio').value.trim(),
+      km: document.getElementById('e-km').value.trim(),
+      precio: document.getElementById('e-precio').value.trim(),
+      combustible: document.getElementById('e-combustible').value,
+      condicion: document.getElementById('e-condicion').value,
+      etiqueta: document.getElementById('e-etiqueta').value.trim().toUpperCase(),
+      nota: document.getElementById('e-nota').value.trim(),
+      fotos: document.getElementById('e-fotos').value.split('\n').map(f=>f.trim()).filter(f=>f),
+    };
+    if(!datos.marca || !datos.modelo || !datos.anio || !datos.precio) {
+      toast('Completá marca, modelo, año y precio'); return;
+    }
+    try {
+      await updateDoc(doc(db, "autos", id), datos);
+      toast('✅ Auto actualizado');
+      cerrarEdicion();
+      cargarAutos();
+      cargarListaAdmin();
+    } catch(e) { toast('Error al guardar'); console.error(e); }
+  }
+
+onAuthStateChanged(auth, (user)=>{
+  if(user){
+    document.getElementById('admin-login').style.display='none';
+    document.getElementById('admin-panel').style.display='block';
+    document.getElementById('nav-admin').style.display='';
+    cargarListaAdmin();
+  } else {
+    document.getElementById('nav-admin').style.display='none';
+  }
+});
+
+if(location.hash === '#admin'){
+  showPage('admin');
+}
+
+cargarAutos();
+
+// ===== PREVIEW DE FOTOS =====
+window.previewFotos = function(textareaId, previewId) {
+  const urls = document.getElementById(textareaId).value
+    .split('\n').map(u => u.trim()).filter(u => u);
+  const container = document.getElementById(previewId);
+  if(urls.length === 0) {
+    container.innerHTML = '<div class="foto-preview-empty">Las fotos aparecerán acá cuando pegues las URLs</div>';
+    return;
+  }
+  container.innerHTML = urls.map((url, i) => `
+    <div class="foto-preview-item">
+      <img src="${url}"
+        onload="this.nextElementSibling.nextElementSibling.style.display='flex'"
+        onerror="this.src='';this.parentElement.style.background='#fee';this.nextElementSibling.style.display='flex'"
+        style="width:100%;height:100%;object-fit:cover">
+      <div class="foto-error" style="display:none">✕</div>
+      <div class="foto-ok" style="display:none">✓</div>
+      <div class="foto-num">${i + 1}</div>
+    </div>`).join('');
+}
+
+
+window.modalFotos=[];
+window.modalIndex=0;
+
+window.abrirModalPorId = function(id) {
+  const auto = window.todosLosAutos.find(a => a.id === id);
+  if(auto) abrirModal(auto);
+  else console.error('No se encontró auto con id:', id, window.todosLosAutos);
+}
+
+window.abrirModal=function(auto){
+  window.modalFotos=(auto.fotos&&auto.fotos.length)?auto.fotos:(auto.foto?[auto.foto]:[]);
+  window.modalIndex=0;
+  document.getElementById('vehiculoModal').style.display='flex';
+  document.getElementById('modalTitulo').innerHTML=`<div class="vehicle-eyebrow">${auto.marca}</div>${auto.marca} ${auto.modelo}`;
+  document.getElementById('modalInfo').innerHTML=`
+<div class="premium-price-box">
+  <div class="premium-price">Precio</div>
+  <div class="premium-price-value">$${auto.precio}</div>
+</div>
+<div class="premium-grid">
+<div class="premium-item"><strong>Año</strong><span>${auto.anio}</span></div>
+<div class="premium-item"><strong>Kilometraje</strong><span>${auto.km} km</span></div>
+<div class="premium-item"><strong>Combustible</strong><span>${auto.combustible}</span></div>
+<div class="premium-item"><strong>Modelo</strong><span>${auto.modelo}</span></div>
+</div>`;
+  document.getElementById('modalWhatsApp').href='https://wa.me/5493875482700?text='+encodeURIComponent('Hola, me interesa el '+auto.marca+' '+auto.modelo);
+  actualizarModal();
+}
+
+window.actualizarModal=function(){
+  if(window.modalFotos.length){
+    document.getElementById('modalImg').src=window.modalFotos[window.modalIndex];
+    document.getElementById('modalCounter').innerText=`Foto ${window.modalIndex+1} de ${window.modalFotos.length}`;
+  }
+  const thumbs=document.getElementById('modalThumbs');
+  if(thumbs){
+    thumbs.innerHTML=window.modalFotos.map((f,i)=>`
+      <img src="${f}" onclick="irFotoModal(${i})" style="opacity:${i===window.modalIndex?1:0.6};border:2px solid ${i===window.modalIndex?'#0a1f5c':'transparent'}">`
+    ).join('');
+  }
+}
+
+window.irFotoModal=function(i){
+  window.modalIndex=i;
+  actualizarModal();
+}
+
+window.cambiarFotoModal=function(dir){
+  if(!window.modalFotos.length)return;
+  window.modalIndex=(window.modalIndex+dir+window.modalFotos.length)%window.modalFotos.length;
+  actualizarModal();
+}
+
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape') cerrarModal();
+});
+
+document.getElementById('vehiculoModal').addEventListener('click',function(e){
+ if(e.target===this) cerrarModal();
+});
+
+// ===== BUSCADOR NAV =====
+// ===== MENU MOBILE =====
+window.toggleMenu = function(){
+  const links = document.getElementById('nav-links');
+  const btn = document.getElementById('nav-hamburger');
+  links.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+window.cerrarMenu = function(){
+  document.getElementById('nav-links').classList.remove('open');
+  document.getElementById('nav-hamburger').classList.remove('open');
+}
+// Cerrar menú al tocar fuera
+document.addEventListener('click', function(e){
+  const nav = document.querySelector('.nav');
+  if(!nav.contains(e.target)){
+    cerrarMenu();
+  }
+});
+
+window.buscarEnNav = function(q) {
+  const clear = document.getElementById('nav-search-clear');
+  const dropdown = document.getElementById('nav-search-dropdown');
+  q = q.trim();
+  clear.classList.toggle('visible', q.length > 0);
+  if(!q) { dropdown.classList.remove('open'); return; }
+  const ql = q.toLowerCase();
+  const resultados = todosLosAutos.filter(a =>
+    !a.vendido && (
+      (a.marca||'').toLowerCase().includes(ql) ||
+      (a.modelo||'').toLowerCase().includes(ql)
+    )
+  ).slice(0, 6);
+
+  function highlight(text) {
+    const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
+    return (text||'').replace(re, '<mark style="background:#fff0b3;color:#0d1b2e;border-radius:2px;padding:0 1px">$1</mark>');
+  }
+
+  if(resultados.length === 0) {
+    dropdown.innerHTML = `<div class="search-no-result">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c8cedc" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+      Sin resultados para <strong style="color:#1a1a2e">"${q}"</strong>
+    </div>`;
+  } else {
+    const items = resultados.map(a => {
+      const foto = a.fotos&&a.fotos.length ? a.fotos[0] : a.foto;
+      const thumb = foto
+        ? `<img class="search-result-thumb" src="${foto}" alt="${a.marca}" onerror="this.style.display='none'">`
+        : `<div class="search-result-thumb-placeholder">&#128663;</div>`;
+      const km = a.km ? `<span class="search-result-km">${Number(a.km).toLocaleString('es-AR')} km</span>` : '';
+      return `<div class="search-result-item" onmousedown="seleccionarResultado('${a.id}')">
+        ${thumb}
+        <div class="search-result-info">
+          <div class="search-result-name">${highlight(a.marca)} ${highlight(a.modelo)} <span style="font-weight:400;color:#9aa3b8">${a.anio||''}</span></div>
+          <div class="search-result-sub">
+            <span class="search-result-price">$${Number(a.precio).toLocaleString('es-AR')}</span>
+            ${km}
+          </div>
+        </div>
+        <svg class="search-result-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 4 10 8 6 12"/></svg>
+      </div>`;
+    }).join('');
+    const header = `<div class="search-dropdown-header">${resultados.length} veh\u00edculo${resultados.length !== 1 ? 's' : ''} encontrado${resultados.length !== 1 ? 's' : ''}</div>`;
+    const footer = `<div class="search-footer-link" onmousedown="showPage('cat\u00e1logo');limpiarBusqueda()">Ver todo el cat\u00e1logo &rarr;</div>`;
+    dropdown.innerHTML = header + items + footer;
+  }
+  dropdown.classList.add('open');
+}
+window.seleccionarResultado = function(id) {
+  limpiarBusqueda();
+  showPage('catalogo');
+  setTimeout(() => abrirModalPorId(id), 100);
+}
+
+window.mostrarDropdown = function() {
+  const q = document.getElementById('nav-search-input').value.trim();
+  if(q) buscarEnNav(q);
+}
+
+window.ocultarDropdownDelay = function() {
+  setTimeout(() => document.getElementById('nav-search-dropdown').classList.remove('open'), 200);
+}
+
+window.limpiarBusqueda = function() {
+  document.getElementById('nav-search-input').value = '';
+  document.getElementById('nav-search-clear').classList.remove('visible');
+  document.getElementById('nav-search-dropdown').classList.remove('open');
+}
+
+window.cerrarModal=function(){
+ document.getElementById('vehiculoModal').style.display='none';
+}
+
+// ===== BUSCADOR MOBILE =====
+window.buscarEnNavMobile = function(q) {
+  const clear = document.getElementById('mobile-search-clear');
+  const dropdown = document.getElementById('mobile-search-dropdown');
+  q = q.trim();
+  clear.classList.toggle('visible', q.length > 0);
+  if(!q) { dropdown.classList.remove('open'); return; }
+  const ql = q.toLowerCase();
+  const resultados = todosLosAutos.filter(a =>
+    !a.vendido && (
+      (a.marca||'').toLowerCase().includes(ql) ||
+      (a.modelo||'').toLowerCase().includes(ql)
+    )
+  ).slice(0, 6);
+
+  function highlight(text) {
+    const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
+    return (text||'').replace(re, '<mark style="background:#fff0b3;color:#0d1b2e;border-radius:2px;padding:0 1px">$1</mark>');
+  }
+
+  if(resultados.length === 0) {
+    dropdown.innerHTML = `<div class="search-no-result">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c8cedc" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+      Sin resultados para <strong style="color:#1a1a2e">"${q}"</strong>
+    </div>`;
+  } else {
+    const items = resultados.map(a => {
+      const foto = a.fotos&&a.fotos.length ? a.fotos[0] : a.foto;
+      const thumb = foto
+        ? `<img class="search-result-thumb" src="${foto}" alt="${a.marca}" onerror="this.style.display='none'">`
+        : `<div class="search-result-thumb-placeholder">&#128663;</div>`;
+      const km = a.km ? `<span class="search-result-km">${Number(a.km).toLocaleString('es-AR')} km</span>` : '';
+      return `<div class="search-result-item" onmousedown="seleccionarResultadoMobile('${a.id}')">
+        ${thumb}
+        <div class="search-result-info">
+          <div class="search-result-name">${highlight(a.marca)} ${highlight(a.modelo)} <span style="font-weight:400;color:#9aa3b8">${a.anio||''}</span></div>
+          <div class="search-result-sub">
+            <span class="search-result-price">$${Number(a.precio).toLocaleString('es-AR')}</span>
+            ${km}
+          </div>
+        </div>
+        <svg class="search-result-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 4 10 8 6 12"/></svg>
+      </div>`;
+    }).join('');
+    const header = `<div class="search-dropdown-header">${resultados.length} vehículo${resultados.length !== 1 ? 's' : ''} encontrado${resultados.length !== 1 ? 's' : ''}</div>`;
+    const footer = `<div class="search-footer-link" onmousedown="limpiarBusquedaMobile()">Ver todo el catálogo &rarr;</div>`;
+    dropdown.innerHTML = header + items + footer;
+  }
+  dropdown.classList.add('open');
+}
+
+window.seleccionarResultadoMobile = function(id) {
+  limpiarBusquedaMobile();
+  abrirModalPorId(id);
+}
+
+window.mostrarDropdownMobile = function() {
+  const q = document.getElementById('mobile-search-input').value.trim();
+  if(q) buscarEnNavMobile(q);
+}
+
+window.ocultarDropdownMobile = function() {
+  setTimeout(() => document.getElementById('mobile-search-dropdown').classList.remove('open'), 200);
+}
+
+window.limpiarBusquedaMobile = function() {
+  document.getElementById('mobile-search-input').value = '';
+  document.getElementById('mobile-search-clear').classList.remove('visible');
+  document.getElementById('mobile-search-dropdown').classList.remove('open');
+}
+
+window.filtrarChip = function(condicion) {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  event.target.classList.add('active');
+  const grid = document.getElementById('destacados-grid');
+  if(!grid) return;
+  let filtrados = todosLosAutos.filter(a => !a.vendido);
+  if(condicion) filtrados = filtrados.filter(a => a.condicion === condicion);
+  grid.innerHTML = filtrados.length === 0
+    ? '<div class="empty"><div class="empty-icon">🚗</div><p>Sin vehículos en esta categoría</p></div>'
+    : filtrados.slice(0,6).map(a => cardHTML(a, false)).join('');
+}
+
+</script>
+
+<!-- MODAL EDICION -->
+<div class="edit-modal" id="edit-modal" onclick="if(event.target===this)cerrarEdicion()">
+  <div class="edit-modal-content">
+    <div class="edit-modal-header">
+      <h3>✏️ Editar vehículo</h3>
+      <button class="edit-modal-close" onclick="cerrarEdicion()">✕</button>
+    </div>
+    <div class="edit-modal-body">
+      <input type="hidden" id="e-id">
+      <div class="form-row">
+        <div><label>Marca</label><input type="text" id="e-marca" placeholder="Toyota"></div>
+        <div><label>Modelo</label><input type="text" id="e-modelo" placeholder="Corolla 2.0 XLI"></div>
+      </div>
+      <div class="form-row">
+        <div><label>Año</label><input type="number" id="e-anio" placeholder="2024"></div>
+        <div><label>Kilómetros</label><input type="text" id="e-km" placeholder="45.000"></div>
+      </div>
+      <div class="form-row">
+        <div><label>Precio</label><input type="text" id="e-precio" placeholder="13.000.000"></div>
+        <div><label>Combustible</label>
+          <select id="e-combustible">
+            <option value="">Seleccionar</option>
+            <option>Nafta</option><option>Diesel</option>
+            <option>Nafta - GNC</option><option>Eléctrico</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div><label>Condición</label>
+          <select id="e-condicion">
+            <option value="usado">Usado</option>
+            <option value="0km">0 km</option>
+          </select>
+        </div>
+        <div><label>Etiqueta</label><input type="text" id="e-etiqueta" placeholder="IMPERDIBLE"></div>
+      </div>
+      <div><label>Nota de precio</label><input type="text" id="e-nota" placeholder="Ej: Financiación disponible · Permuta"></div>
+      <div><label>Fotos (una URL por línea)</label>
+        <textarea id="e-fotos" placeholder="https://i.imgur.com/..." oninput="previewFotos('e-fotos','e-fotos-preview')"></textarea>
+        <div class="foto-preview" id="e-fotos-preview"></div>
+      </div>
+    </div>
+    <div class="edit-modal-footer">
+      <button class="btn-cancelar" onclick="cerrarEdicion()">Cancelar</button>
+      <button class="btn-guardar" onclick="guardarEdicion()">Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="vehiculoModal">
+  <div class="modal-content">
+    <div class="modal-body">
+      <div class="modal-img-col">
+        <div class="modal-nav"><div id="modalCounter" class="modal-counter"></div>
+          <button onclick="cambiarFotoModal(-1)">◀</button>
+          <button onclick="cambiarFotoModal(1)">▶</button>
+          <button onclick="cerrarModal()">✖</button>
+        </div>
+        <img id="modalImg" class="modal-img">
+        <div id="modalThumbs" class="modal-thumbs"></div>
+      </div>
+      <div class="vehicle-details">
+        <h2 id="modalTitulo"></h2>
+        <div id="modalInfo"></div>
+        <a id="modalWhatsApp" target="_blank" class="wa-btn">Consultar por WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<a class="floating-wa" href="https://wa.me/5493875482700" target="_blank">
+  <img src="https://i.imgur.com/Urc1gQ5.png" alt="WhatsApp" width="38" height="38" style="object-fit:contain">
+</a>
+
+</body>
+</html>
